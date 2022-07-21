@@ -1,0 +1,64 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "ignorePatterns": [
+        "build/**/*.js",
+        "src/assets/**/*.js",
+        "tailwind.config.js",
+        "postcss.config.js",
+        "craco.config.js",
+        "serviceWorkerRegistration.js",
+        "service-worker.js"
+    ],
+    "rules": {
+        "jsx-a11y/anchor-is-valid": [
+            "error",
+            {
+                "components": [
+                    "Link"
+                ],
+                "specialLink": [
+                    "hrefLeft",
+                    "hrefRight"
+                ],
+                "aspects": [
+                    "invalidHref",
+                    "preferButton"
+                ]
+            }
+        ],
+        "no-unused-vars": "off",
+        "no-nested-ternary": "off",
+        // suppress errors for missing 'import React' in files
+        "react/react-in-jsx-scope": "off",
+        "import/no-extraneous-dependencies": "off",
+        // allow jsx syntax in js files (for next.js project)
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ], //should add ".ts" if typescript project
+        "react/jsx-props-no-spreading": "off"
+    }
+}

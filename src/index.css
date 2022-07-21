@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+body{
+  font-family: 'Lato', sans-serif;
+}
+
+/* #root,body, html { */
+  /* overflow-x: hidden;  */
+  /* width: 100%; */
+/* } */
+
+.bg-custom-lightblue{
+  background-color: #b3e5fc;;
+}
+
+.bg-bg-blue{
+  background-color: #399fff; /*Fondo Panel*/
+  
+} 
+
+.bg-custom-blue{
+  background-image: linear-gradient(140deg, #aeffff 0, #78e6ff 25%, #0cc1ed 50%, #009dd4 75%, #007fc0 100%);
+} 
+
+.text-custom-blue{
+  color: #0288d1;
+}
+
+/* <----------- UTILS ----------->*/
+.tap-highline-none{
+  -webkit-tap-highlight-color: rgba(0,0,0,0); 
+}
+
+/* SELECT A ROW OF A TABLE */
+.rowTable{
+  background-color: white ;
+}
+.rowTable:hover{
+  background-color: #b3e5fc;
+}
+.rowTableSalesSelected{
+  background-color: #99e2a7;
+}
+.rowTableSalesSelected:hover{
+  background-color: #99e2a7;
+}
+.rowTableUsersSelected{
+  background-color: #8ad9fd;
+}
+.rowTableUsersSelected:hover{
+  background-color: #8ad9fd;
+}
+.rowTableAdminSelected{
+  background-color: #ffdcdc;
+}
+.rowTableAdminSelected:hover{
+  background-color: #ffdcdc;
+}
+.rowTableBillingSelected{
+  background-color: #99e2a7;
+}
+.rowTableBillingSelected:hover{
+  background-color: #99e2a7;
+}
+
+/* DELETE ARROWS IN INPUT NUMBER*/
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0;
+}
+
+input[type=number] { -moz-appearance:textfield; }
+
