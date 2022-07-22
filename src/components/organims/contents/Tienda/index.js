@@ -182,18 +182,18 @@ const Local = ({
   const createLocal = async (data) => {
     setIsLoaderSubmit(true);
     const dataToAdd = {
-      isActive: data.isActive,
+      //isActive: data.isActive,
       nombre: data.nombre,
       direccion: data.direccion,
       telefono: data.telefono,
       correo: data.correo,
-      eslogan: data.eslogan,
-      fecha_creacion: data.fecha_creacion,
-      fecha_actualizacion: data.fecha_actualizacion,
+      //eslogan: data.eslogan,
+      //fecha_creacion: data.fecha_creacion,
+      //fecha_actualizacion: data.fecha_actualizacion,
       ciudad: data.ciudad,
       num_documento: data.num_documento,
       rz_social: data.rz_social,
-      codDomicilioFiscal: data.codDomicilioFiscal,
+      //codDomicilioFiscal: data.codDomicilioFiscal,
     };
     const [result, status] = await fetchLocal.post(dataToAdd);
     if (status !== 200) {
@@ -647,7 +647,7 @@ return (
                           value: 0.01,
                           message: 'Precio debe ser mayor a 0',
                         }, */
-                        onBlur: () => watch('telefono') * 2 && setValue('telefono', parseFloat(watch('telefono')).toFixed(2)),
+                        //onBlur: () => watch('telefono') * 2 && setValue('telefono', parseFloat(watch('telefono')).toFixed(2)),
                       }}
                       register={register} errors={errors}
                     />

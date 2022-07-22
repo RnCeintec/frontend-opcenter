@@ -11,7 +11,7 @@ const withFetch = (Component) => (props) => {
     const [limit, setLimit] = useState(10);
     const [searchShop, setSearchLocal] = useState('');
     const [localMutate, setLocalMutate] = useState(null);
-    const [filterStatus, setFilterStatus] = useState('');
+    const [filterStatus, setFilterStatus] = useState('Mercaderes,Virrey');
     const [localData, setLocalData] = useState('');
   
     // FETCHS
@@ -43,7 +43,7 @@ const withFetch = (Component) => (props) => {
         if (!query) return;
         try {
           const [result, status] = await fetchLocal.get(`?search=${searchShop}&${query}`);
-          // const [result, status] = await fetchLocal.post({ descripcion: searchShop }); // ONLY FOR TEST
+          //* const [result, status] = await fetchLocal.post({ descripcion: searchShop }); // ONLY FOR TEST
           if (status === 200) {
             setLocalData(result);
             setLocalCount(result.count || 1);
@@ -79,8 +79,8 @@ const withFetch = (Component) => (props) => {
         setLocalData(['loading']);
         getDataLocal();
         
-      }, [searchShop, localMutate, query]);
-    
+      }, [searchShop, localMutate, filterStatus, query]);
+      
       useEffect(() => {
         if (idLocal > -1) {
           getLocalByIdData();

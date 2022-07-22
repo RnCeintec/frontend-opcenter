@@ -56,15 +56,15 @@ const ProfileEdit = ({ profileData }) => {
     <>
       <div className="flex flex-col justify-center items-center text-center">
         <h1 className="text-xl font-semibold flex flex-col justify-center items-center">
-          Editar Perfíl
+          Perfíl de Usuario
         </h1>
       </div>
       <form className="flex flex-col w-full relative" onSubmit={handleSubmit(onSubmit)}>
         <FormTextInput
           inputName="name"
-          title="Nombre Vendedor"
+          title="Usuario"
           icon={<IconUserCircle />}
-          placeholder="Ingresar Nombre del Vendedor"
+          placeholder="Usuario de Tienda"
           options={{
             required: {
               value: true,
@@ -80,7 +80,7 @@ const ProfileEdit = ({ profileData }) => {
         />
         <FormTextInput
           inputName="user"
-          title="Nombre Usuario"
+          title="Login"
           icon={<IconUser />}
           placeholder="Ingresar Nombre de Usuario"
           options={{
@@ -98,9 +98,9 @@ const ProfileEdit = ({ profileData }) => {
         />
         <FormTextInput
           inputName="document"
-          title="N° Documento"
+          title="Identificador"
           icon={<IconIdCard />}
-          placeholder="Ingresar N° de Documento"
+          placeholder="Ingresar N° de Identificador"
           options={{
             required: {
               value: true,
@@ -115,7 +115,7 @@ const ProfileEdit = ({ profileData }) => {
           register={register}
           errors={errors}
         />
-        <FormTextInput
+        {/* <FormTextInput
           inputName="password"
           title="Cambiar Contraseña (opcional)"
           icon={<IconKey />}
@@ -123,15 +123,15 @@ const ProfileEdit = ({ profileData }) => {
           type="password"
           register={register}
           errors={errors}
-        />
-        <button
+        /> */}
+        {/* <button
           type="submit"
           className={`flex justify-center items-center py-1.5 px-3 mt-6 mb-1 bg-primary opacity-90 hover:opacity-100 text-white rounded-xl ${isLoadingSubmit ? 'cursor-not-allowed' : ''}`}
           disabled={isLoadingSubmit}
         >
           {isLoadingSubmit && <IconSpiner />}
           <p>Actualizar Datos</p>
-        </button>
+        </button> */}
       </form>
     </>
   );
@@ -421,14 +421,14 @@ const LocalEdit = ({ locationData }) => {
           </button>
           {localStorage.getItem('role') === 'admin'
             && (
-              <button
+              {/* <button
                 type="submit"
                 className={`flex w-1/2 justify-center items-center py-1.5 px-3 bg-primary opacity-90 hover:opacity-100 text-white rounded-xl ${isLoadingSubmit ? 'cursor-not-allowed' : ''}`}
                 disabled={isLoadingSubmit}
               >
                 {isLoadingSubmit && <IconSpiner />}
                 <p>Actualizar Datos</p>
-              </button>
+              </button> */}
             )}
         </div>
       </form>
@@ -481,7 +481,9 @@ const ClientConfig = ({
             <p>Perfil</p>
           </button>
           <div className="w-0.5 bg-gray-200" />
-          <button
+          
+          {//Para que muestre la Sección de los locales
+          /* {<button
             type="button"
             onClick={() => (locationData !== 'loading' ? setPanelActive('local') : warningAlert('Cargando Datos, por favor espere'))}
             className={`${panelActive === 'local' ? 'border-b-4 border-primary' : 'border-b border-gray-200'} group flex items-center justify-center px-4 py-2 w-full font-semibold text-gray-800 hover:text-white bg-white hover:bg-primary`}
@@ -493,7 +495,7 @@ const ClientConfig = ({
                 <span className="ml-2 hidden group-hover:flex"><IconSpiner /></span>
               </>
             )}
-          </button>
+          </button>} */}
           <div className="w-0.5 bg-gray-200" />
           <button
             type="button"
@@ -503,13 +505,13 @@ const ClientConfig = ({
             <span><IconClose /></span>
           </button>
         </div>
-        <div id="scroller" className={`px-4 pb-6 pt-4 rounded-b-xl bg-white overflow-y-auto relative sm:max-h-screen ${panelActive === 'profile' ? '' : 'max-h-96'}`}>
+        {<div id="scroller" className={`px-4 pb-6 pt-4 rounded-b-xl bg-white overflow-y-auto relative sm:max-h-screen ${panelActive === 'profile' ? '' : 'max-h-96'}`}>
           {profileData === 'loading'
             ? <div className="flex justify-center p-10"><IconSpiner dark medium /></div>
             : panelActive === 'profile'
               ? <ProfileEdit profileData={profileData} />
               : <LocalEdit locationData={locationData} />}
-        </div>
+        </div>}
       </div>
 
       {/* THIS DIV IS FOR BLACK BACKGROUND */}
