@@ -8,7 +8,7 @@ const Footer = () => (
         <p>
           Copyright © 2020-2022
         </p>
-        <a href="http://ceintec-rn.net.pe" className="mx-1 font-semibold text-blue-400">Centro de Innovación Tecnológica RN</a>
+        <a href="http://ceintec-rn.net.pe" className="mx-1 font-semibold text-blue-400">CEINTEC.RN</a>
       </div>
       <p>
         All rights reserved.

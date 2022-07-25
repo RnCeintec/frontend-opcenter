@@ -9,6 +9,7 @@ export const menus = [
   { name: 'Dashboard', payload: 'HOME', icon: 'iconDashboard' },
   { name: 'Tiendas', payload: 'LOCALES', icon: 'iconLocal', role:'admin'},
   { name: 'Usuarios', payload: 'USERS', icon: 'iconUsers', role: 'admin' },
+  { name: 'Vendedores', payload: 'VENDEDORES', icon: 'IconIdCard', role: 'admin' },
   { name: 'Proveedores', payload: 'b', icon: 'IconIdCard', role: 'admin' },
   { name: 'Laboratorio', payload: 'c', icon: 'IconTickets', role: 'admin' },
   { name: 'Facturación Elect.', payload: 'BILLING', icon: 'iconBilling', role: 'admin' },
