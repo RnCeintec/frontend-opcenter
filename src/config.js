@@ -13,6 +13,7 @@ export const menus = [
   { name: 'Laboratorio', payload: 'c', icon: 'IconTickets', role: 'admin' },
   { name: 'Facturación Elect.', payload: 'BILLING', icon: 'iconBilling', role: 'admin' },
   { name: 'Ventas', payload: 'SALES', icon: 'iconSales' },
+  { name: 'Monturas', payload: 'MONTURAS', icon: 'iconMontura' },
   { name: 'Productos', payload: 'PRODUCTS', icon: 'iconProducts' },
   { name: 'Clientes', payload: 'CLIENTS', icon: 'iconClients' },
   { name: 'Reporte de Ventas', payload: 'SALES_REPORT', icon: 'iconReport' },
