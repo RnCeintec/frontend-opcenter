@@ -589,7 +589,7 @@ const Vendedor = ({
                           }}
                           register={register} errors={errors}
                         /> */}
-                        <FormTextInput inputName="Telefono"
+                        <FormTextInput inputName="telefono"
                           title="Teléfono"
                           icon={<IconPhone />}
                           type="money"
@@ -605,7 +605,7 @@ const Vendedor = ({
                           }}
                           register={register} errors={errors}
                         />
-                        <FormTextInput inputName="Direccion"
+                        <FormTextInput inputName="direccion"
                           title="Dirección"
                           icon={<IconObservation />}
                           placeholder="Ingresar Dirección (opcional)"
