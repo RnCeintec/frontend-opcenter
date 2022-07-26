@@ -22,11 +22,8 @@ const withMainPage = (Component) => (props) => {
   if (page === 'CLIENTS') return <Component {...props} childComponent={<AsyncClientContent />} />;
   if (page === 'SALES_REPORT') return <Component {...props} childComponent={<AsyncSalesReportContent />} />;
   if (page === 'USERS') return <Component {...props} childComponent={<AsyncUsersReportContent />} />;
-<<<<<<< HEAD
   if (page === 'VENDEDORES') return <Component {...props} childComponent={<AsyncVendedorContent />} />;
-=======
   if (page === 'MONTURAS') return <Component {...props} childComponent={<AsyncMonturasContent />} />;
->>>>>>> rm_kat
 
   return <Component {...props} childComponent={<AsyncHomeContent />} />;
 };
