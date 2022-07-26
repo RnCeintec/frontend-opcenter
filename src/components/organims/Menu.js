@@ -124,6 +124,7 @@ const Menu = ({ openMenu, setOpenMenu }) => {
                             icon={icon}
                             action={() => dispatch({ type: 'SET_PAGE', payload })}
                           />
+                          
                         )
                         : ''
                       : (

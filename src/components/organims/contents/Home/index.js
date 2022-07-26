@@ -162,7 +162,7 @@ const Home = ({ dataDashboard }) => {
           </div>
           <div className="w-full sm:w-1/2 bg-white rounded-xl shadow">
             <div className="border-b text-gray-800 font-semibold pl-4 p-2">
-              Ultimas Ventas
+              Consulta Interna
             </div>
             <div className="p-4 ">
               {dataDashboard === 'loading'
