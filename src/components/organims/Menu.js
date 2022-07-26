@@ -21,6 +21,7 @@ const Icons = (value) => {
     case 'IconTickets': return <IconTickets />;
     case 'IconIdCard': return <IconIdCard />;
     case 'iconUsers': return <IconUserCircle borderWhite />;
+    case 'iconMontura': return <IconCategory />;
 
     default: return <IconComputer />;
   }
