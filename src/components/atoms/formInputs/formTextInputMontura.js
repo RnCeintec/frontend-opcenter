@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
-const FormTextInput = ({
-  register, errors, inputName, title, icon, placeholder, options, type, disabled, uppercase, watch
+const FormTextInputMontura = ({
+  register, errors, inputName, title, icon, placeholder, options, type, disabled, uppercase, watch,inputValue
 }) => (
   <label htmlFor={inputName} className="w-full mt-2">
     <p className="font-semibold pl-2.5 text-gray-800">
@@ -33,6 +33,7 @@ const FormTextInput = ({
             type: 'text',
           })}
           id={inputName}
+          value={inputValue ?? ""}
           disabled={disabled}
           className={`py-1 px-2 rounded-r-xl w-full sm:w-full focus:outline-none bg-white ${disabled ? 'cursor-not-allowed' : ''} ${uppercase ? watch !== '' ? 'uppercase' : '' : ''}`}
           {...register(
@@ -48,7 +49,7 @@ const FormTextInput = ({
   </label>
 );
 
-FormTextInput.propTypes = {
+FormTextInputMontura.propTypes = {
   register: PropTypes.func.isRequired,
   errors: PropTypes.shape().isRequired,
   inputName: PropTypes.string.isRequired,
@@ -65,7 +66,7 @@ FormTextInput.propTypes = {
   watch: PropTypes.func,
 };
 
-FormTextInput.defaultProps = {
+FormTextInputMontura.defaultProps = {
   type: 'text',
   options: {},
   disabled: false,
@@ -73,4 +74,4 @@ FormTextInput.defaultProps = {
   watch: null,
 };
 
-export default FormTextInput;
+export default FormTextInputMontura;

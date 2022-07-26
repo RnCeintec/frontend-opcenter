@@ -20,6 +20,9 @@ import Portal from '../../../../utils/portal';
 import { scrollTo, scrollUp } from '../../../../utils/scrolling';
 import Pagination from '../../../atoms/buttons/paginationButtons';
 import FormTextInput from '../../../atoms/formInputs/formTextInput';
+import FormTextInputMontura from '../../../atoms/formInputs/formTextInputMontura';
+
+
 import FormSelectInput from '../../../atoms/formInputs/formSelectInput';
 
 const Products = ({
@@ -28,7 +31,7 @@ const Products = ({
   categoryId,
   monturasData,
   setMonturasMutate,
-  categoriesData,
+  proveedorData,
   setLimit,
   setSearchMontura,
   searchMontura,
@@ -45,6 +48,7 @@ const Products = ({
   jumpToPage,
   jumpToFirstPage,
   jumpToLastPage,
+  monturasByUltima
 }) => {
   const [openMenuFilterStatus, setOpenMenuFilterStatus] = useState(false);
   const [isLoadingSelectItem, setIsLoadingSelectItem] = useState(false);
@@ -61,7 +65,6 @@ const Products = ({
 
   const fetchMontura = useFetch('monturas');
   // const fetchUploadImg = useFetch('');
-
   // FORM VARIABLES
   const {
     register, watch, reset, setValue, clearErrors, handleSubmit, setFocus, formState: { errors },
@@ -207,7 +210,6 @@ const Products = ({
     // console.log('editando');
     setIsLoaderSubmit(true);
     const dataToAdd = {
-      codigo: data.code,
       description: data.description,
       precio_compra: data.precioCompra,
       precio_sugerido: data.precioSugerido,
@@ -281,7 +283,10 @@ const Products = ({
     // await adminMutate();
   };
 
+ 
+
   return (
+    
     <>
       {isOpenVerifyDelete
         && (
@@ -396,7 +401,7 @@ const Products = ({
                   <thead>
                     <tr className="border-l border-gray-400 bg-red-500 opacity-90 text-white">
                       <th className="border-r border-b border-gray-200 px-2 py-2 font-medium hidden">ID</th>
-                      <th className="border-r border-b border-gray-200 px-2 py-2 font-medium text-sm">Codigo</th>
+                      <th className="border-r border-b border-gray-200 px-2 py-2 font-medium text-sm">Montura</th>
                       <th className="border-r border-b border-gray-200 px-6 py-2 font-medium whitespace-nowrap">Marca</th>
                       {/* <th className="border-r border-b border-gray-200 px-2 py-2 font-medium">Categoria</th> */}
                       <th className="border-r border-b border-gray-200 px-2 py-2 font-medium">
@@ -570,10 +575,63 @@ const Products = ({
                 )
                   : (
                     <form className="flex flex-col w-full -mt-2 relative" onSubmit={handleSubmit(onSubmit)}>
-                      <FormTextInput inputName="code"
-                        title="Código"
+                          <FormSelectInput inputName="idproveedor"
+                        title="Proveedor"
+                        icon={<IconSearch />}
+                        placeholder="Proveedor"
+                        // onChange={(e) => handleChangeCantView(e)}
+                        options={{
+                          validate: {
+                            value: (e) => e !== 'select' || 'Proveedor requerido',
+                          },
+                        }}
+                        register={register} errors={errors} watch={watch}
+                      >
+                      {Array.isArray(proveedorData)
+                            && proveedorData.map((item) => (
+                              <option key={item.id} value={item.id} className="capitalize text-gray-700">
+                                {item.razonsocial}
+                              </option>
+                            ))}
+                      </FormSelectInput>
+                      <FormSelectInput inputName="documento"
+                        title="Documento"
+                        icon={<IconCategory />}
+                        placeholder="Documento"
+                        // onChange={(e) => handleChangeCantView(e)}
+                        options={{
+                          validate: {
+                            value: (e) => e !== 'select' || 'Documento requerido',
+                          },
+                        }}
+                        register={register} errors={errors} watch={watch}
+                      >
+                        <option value="Factura" className="text-gray-700">
+                        Factura
+                        </option>
+                        <option value="Nota_Pedido" className="text-gray-700">
+                        Nota de pedido
+                        </option>
+                       
+                        
+                      </FormSelectInput>
+                      <FormTextInput inputName="numero"
+                        title="Numero"
+                        icon={<IconProduct />}
+                        placeholder="Ingresar Numero"
+                        options={{
+                          required: {
+                            value: true,
+                            message: 'Numero requerida',
+                          },
+                        }}
+                        register={register} errors={errors}
+                      />
+                      <FormTextInputMontura inputName="idmontura"
+                        title="Montura"
+                       
                         icon={<IconProductCode />}
-                        placeholder="Ingresar Código"
+                        placeholder=""
                         options={{
                           required: {
                             value: true,
@@ -583,82 +641,93 @@ const Products = ({
                             value: /^[a-zA-Z0-9-ñÑ]+$/,
                             message: 'Código invalido',
                           },
+                          
                         }}
                         register={register} errors={errors}
+                        inputValue={"M"+monturasByUltima["id"] }
                       />
-                      <FormTextInput inputName="description"
-                        title="Descripción"
+                      
+                      <FormTextInput inputName="marca"
+                        title="Marca"
                         icon={<IconProduct />}
-                        placeholder="Ingresar Descripción"
+                        placeholder="Ingresar Marca"
                         options={{
                           required: {
                             value: true,
-                            message: 'Descripción requerida',
+                            message: 'Marca requerida',
                           },
                         }}
                         register={register} errors={errors}
                       />
                        
-                      {/* <div className="flex space-x-3 items-end">
-                        <FormSelectInput inputName="category"
-                          title="Categoria"
-                          icon={<IconCategory />}
-                          placeholder="Seleccionar Categoria"
-                          // onChange={(e) => handleChangeCantView(e)}
-                          options={{
-                            validate: {
-                              value: (e) => e !== 'select' || 'Categoria requerida',
-                            },
-                          }}
-                          register={register} errors={errors} watch={watch}
-                        >
-                          {Array.isArray(categoriesData)
-                            && categoriesData.map((item) => (
-                              <option key={item.id} value={item.id} selected={categoryId === item.id} className="capitalize text-gray-700">
-                                {item.descripcion}
-                              </option>
-                            ))}
-                        </FormSelectInput>
-                        <button type="button"
-                          onClick={() => setIsOpenNewCategoryModal(true)}
-                          className={`flex items-center justify-center w-10 h-8.5 px-1 rounded-xl text-white text-sm sm:text-base bg-primary opacity-90 hover:opacity-100 
-                            ${errors?.category ? 'mb-4' : ''}`}
-                        >
-                          <div className="">
-                            <IconNewCategory />
-                          </div>
-                        </button>
-                      </div> */}
-                      <FormTextInput inputName="precioCompra"
-                        title="Precio de Compra"
-                        icon={<p>S/.</p>}
-                        placeholder="Ingresar Precio de compra"
+                     
+                      <FormTextInput inputName="modelo"
+                        title="Modelo"
+                        placeholder="Ingresar modelo"
                         options={{
                           required: {
                             value: true,
-                            message: 'Precio requerido',
+                            message: 'Modelo requerido',
                           },
-                          pattern: {
-                            value: /^[0-9.]+$/,
-                            message: 'Precio invalido',
+                        }}
+                        register={register} errors={errors}
+                      />
+              
+                             <FormSelectInput inputName="tipo"
+                        title="Tipo"
+                        icon={<IconCategory />}
+                        placeholder="Tipo"
+                        // onChange={(e) => handleChangeCantView(e)}
+                        options={{
+                          validate: {
+                            value: (e) => e !== 'select' || 'Tipo requerido',
                           },
-                          min: {
-                            value: 0.01,
-                            message: 'Precio debe ser mayor a 0',
+                        }}
+                        register={register} errors={errors} watch={watch}
+                      >
+                        <option value="AL AIRE" className="text-gray-700">
+                        AL AIRE
+                        </option>
+                        <option value="SEMI AL AIRE" className="text-gray-700">
+                        SEMI AL AIRE
+                        </option>
+                        <option value="ARO COMPLETO" className="text-gray-700">
+                        ARO COMPLETO
+                        </option>
+                        
+                      </FormSelectInput>
+                        
+                      <FormTextInput inputName="color"
+                        title="Color"
+                        placeholder="Ingresar color"
+                        options={{
+                          required: {
+                            value: true,
+                            message: 'Color  requerido',
                           },
-                          onBlur: () => watch('precioCompra') * 2 && setValue('precioCompra', parseFloat(watch('precioCompra')).toFixed(2)),
+                        }}
+                        register={register} errors={errors}
+                      />
+                      <FormTextInput inputName="comentario"
+                        title="Comentario"
+                        placeholder="Ingresar comentario"
+                        options={{
+                          required: {
+                            value: true,
+                            message: 'Color  requerido',
+                          },
                         }}
                         register={register} errors={errors}
                       />
 
-                      <FormTextInput inputName="precioSugerido"
-                        title="Precio Sugerido"
+                      <FormTextInput inputName="costo"
+                        title="Costo"
                         icon={<p>S/.</p>}
-                        placeholder="Ingresar Precio Sugerido"
+                        placeholder="Ingresar Costo"
                         options={{
                           required: {
                             value: true,
-                            message: 'Precio requerido',
+                            message: 'Costo requerido',
                           },
                           pattern: {
                             value: /^[0-9.]+$/,
@@ -666,13 +735,33 @@ const Products = ({
                           },
                           min: {
                             value: 0.01,
-                            message: 'Precio debe ser mayor a 0',
+                            message: 'Costo  debe ser mayor a 0',
                           },
-                          onBlur: () => watch('precioSugerido') * 2 && setValue('precioSugerido', parseFloat(watch('precioSugerido')).toFixed(2)),
+                          onBlur: () => watch('costo') * 2 && setValue('costo', parseFloat(watch('costo')).toFixed(2)),
                         }}
                         register={register} errors={errors}
                       />
- <FormTextInput inputName="precio_minimo"
+                      <FormTextInput inputName="venta"
+                        title="Precio venta"
+                        icon={<p>S/.</p>}
+                        placeholder="Ingresar precio venta"
+                        options={{
+                          required: {
+                            value: true,
+                            message: 'Precio venta',
+                          },
+                          pattern: {
+                            value: /^[0-9.]+$/,
+                            message: 'Precio venta invalido',
+                          },
+                          min: {
+                            value: 0.01,
+                            message: 'Precio de venta debe ser mayor a 0',
+                          }
+                        }}
+                        register={register} errors={errors}
+                      />
+ <FormTextInput inputName="tope"
                         title="Precio minimo"
                         icon={<p>S/.</p>}
                         placeholder="Ingresar precio minimo"
@@ -692,22 +781,22 @@ const Products = ({
                         }}
                         register={register} errors={errors}
                       />
-                      {/* <FormTextInput inputName="stock"
-                        title="Stock"
+                      <FormTextInput inputName="cantidad"
+                        title="Cantidad"
                         icon={<IconStock />}
-                        placeholder="Ingresar Stock"
+                        placeholder="Ingresar cantidad"
                         options={{
                           required: {
                             value: true,
-                            message: 'Stock requerido',
+                            message: 'Canttidad requerido',
                           },
                           pattern: {
                             value: /^[0-9]+$/,
-                            message: 'Stock invalido',
+                            message: 'Cantidad invalido',
                           },
                         }}
                         register={register} errors={errors}
-                      /> */}
+                      />
                       <div className="flex justify-end space-x-5  mt-3 sm:mt-4">
                         <button
                           className="flex items-center justify-center p-1.5 text-white text-sm sm:text-base bg-red-500 hover:bg-red-600 opacity-90 hover:opacity-100 rounded-xl w-24 sm:w-40 cursor-pointer focus:outline-none"
@@ -754,7 +843,7 @@ Products.propTypes = {
     PropTypes.arrayOf(PropTypes.shape()),
   ]).isRequired,
   setMonturasMutate: PropTypes.func.isRequired,
-  categoriesData: PropTypes.oneOfType([
+  proveedorData: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.arrayOf(PropTypes.shape()),
   ]).isRequired,

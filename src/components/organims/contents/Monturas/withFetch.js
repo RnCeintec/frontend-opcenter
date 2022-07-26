@@ -21,14 +21,17 @@ const withFetch = (Component) => (props) => {
   //   `${APIAdmin}/?limit=${limit}&offset=${pageActual}&search=${searchAdmin}`,
   // );
   const [monturasData, setMonturasData] = useState('');
-  const [categoriesData, setCategoriesData] = useState('');
+  const [proveedorData, setProveedorData] = useState('');
 
   // FETCHS
   const fetchMonturas = useFetch('monturas');
-  const fetchCategories = useFetch('category');
+  const fetchProveedor = useFetch('proveedor');
+  const fetchUltimaMontura = useFetch('ultimaMonturas');
+
 
   const [idMontura, setIdMonturas] = useState(-1);
   const [monturasByIdData, setMonturasByIdData] = useState(null);
+  const [monturasByUltima, setMonturasByUltima] = useState(null);
 
   const {
     page,
@@ -67,27 +70,40 @@ const withFetch = (Component) => (props) => {
       setIsLoadingSearchMonturas(false);
     }
   };
+  const getDataUltimaMontura = async () => {
+    // const idLocal = JSON.parse(localStorage.getItem('localData')).id;
+    try {
+      const [result, status] = await fetchUltimaMontura.get('');
+      if (status === 200) {
+        setMonturasByUltima(result)
+      } else {
+        errorAlert('No se pudo encontrar la ultima montura');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getDataCategories = async () => {
     try {
-      const [result, status] = await fetchCategories.get('?search=&limit=all&offset=0');
-      // const [result, status] = await fetchCategories.post({ descripcion: searchMontura }); // ONLY FOR TEST
+      const [result, status] = await fetchProveedor.get('?search=&limit=all&offset=0');
+      // const [result, status] = await fetchProveedor.post({ descripcion: searchMontura }); // ONLY FOR TEST
       if (status === 200) {
-        setCategoriesData(result);
+        setProveedorData(result);
       } else {
         errorAlert('Error al cargar Categorias');
       }
     } catch (error) {
       console.log(error);
       errorAlert('Error al cargar Categorias');
-      setCategoriesData({ result: [] });
+      setProveedorData({ result: [] });
     }
   };
 
   const getMonturasByIdData = async () => {
     try {
       const [result, status] = await fetchMonturas.getById(idMontura);
-      // const [result, status] = await fetchCategories.post({ descripcion: searchMontura }); // ONLY FOR TEST
+      // const [result, status] = await fetchProveedor.post({ descripcion: searchMontura }); // ONLY FOR TEST
       if (status === 200) {
         setMonturasByIdData(result);
       } else {
@@ -103,12 +119,21 @@ const withFetch = (Component) => (props) => {
   useEffect(() => {
     getDataCategories();
   }, [categoryId, categoryListMutate]);
+  
 
   useEffect(() => {
     setMonturasData(['loading']);
     getDataMonturas();
+    getDataUltimaMontura();
     // setPageActual(0);
   }, [searchMontura, monturasMutate, query]);
+  
+  // useEffect(() => {
+  //   if (idMontura > -1) {
+  //     getDataUltimaMontura();
+
+  //   }
+  // }, [idMontura]);
 
   useEffect(() => {
     if (idMontura > -1) {
@@ -145,7 +170,7 @@ const withFetch = (Component) => (props) => {
       // setPageActual={setPageActual}
       monturasData={monturasData?.result || ['loading']}
       setMonturasMutate={setMonturasMutate}
-      categoriesData={categoriesData?.result || ['loading']}
+      proveedorData={proveedorData?.result || ['loading']}
       pages={monturasData?.pages || 1}
       setLimit={setLimit}
       setSearchMontura={setSearchMontura}
@@ -163,6 +188,7 @@ const withFetch = (Component) => (props) => {
       jumpToPage={jumpToPage}
       jumpToFirstPage={jumpToFirstPage}
       jumpToLastPage={jumpToLastPage}
+      monturasByUltima={monturasByUltima?.result || ['loading']}
       {...props}
     />
   );
