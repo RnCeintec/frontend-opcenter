@@ -150,7 +150,7 @@ const Proveedor = ({
       setValue('celular', proveedorByIdData.celular || '');
       setValue('comentario', proveedorByIdData.comentario || '');
       clearErrors();
-      if (proveedorByIdData.tipo_documento) {
+      if (proveedorByIdData.ruc) {
         setIsLoadingSelectItem(false);
         // setFocus('NumDocu');
       }
@@ -553,7 +553,8 @@ const Proveedor = ({
                         <FormTextInput inputName="razonsocial"
                           title="Razón Social"
                           icon={<IconUserCircle />}
-                          placeholder={`Ingresar ${watch('ruc') === 'ruc' ? 'Razón Social' : 'Nombre del Vendedor'}`}
+                          placeholder="Ingresar Razón Social"
+                          //placeholder={`Ingresar ${watch('ruc') === 'ruc' ? 'Razón Social' : 'Nombre del Vendedor'}`}
                           options={{
                             required: {
                               value: true,

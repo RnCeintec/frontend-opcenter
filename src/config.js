@@ -10,7 +10,7 @@ export const menus = [
   { name: 'Tiendas', payload: 'LOCALES', icon: 'iconLocal', role:'admin'},
   { name: 'Usuarios', payload: 'USERS', icon: 'iconUsers', role: 'admin' },
   { name: 'Vendedores', payload: 'VENDEDORES', icon: 'IconIdCard', role: 'admin' },
-  { name: 'Proveedores', payload: 'PROVEEDORES', icon: 'IconIdCard', role: 'admin' },
+  { name: 'Proveedores', payload: 'PROVEEDORES', icon: 'iconClients', role: 'admin' },
   { name: 'Laboratorio', payload: 'c', icon: 'IconTickets', role: 'admin' },
   { name: 'Facturación Elect.', payload: 'BILLING', icon: 'iconBilling', role: 'admin' },
   { name: 'Ventas', payload: 'SALES', icon: 'iconSales' },
