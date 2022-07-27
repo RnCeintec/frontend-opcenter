@@ -70,7 +70,7 @@ const Laboratorio = ({
 
   
     const fetchLaboratorio = useFetch('laboratorio');
-
+//probando
     const refOptionOne = useRef(null);
     const refOptionTwo = useRef(null);
     const refOptionThree = useRef(null);
