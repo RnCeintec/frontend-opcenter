@@ -23,6 +23,7 @@ import Pagination from '../../../atoms/buttons/paginationButtons';
 import FormTextInput from '../../../atoms/formInputs/formTextInput';
 import FormSelectInput from '../../../atoms/formInputs/formSelectInput';
 
+
 const Laboratorio = ({
     isLoadingSearchLaboratorio,
     setIsLoadingSearchLaboratorio,
@@ -51,6 +52,7 @@ const Laboratorio = ({
     jumpToPage,
     jumpToFirstPage,
     jumpToLastPage,
+    
   }) => {
     // filter
     const [openMenuFilterStatus, setOpenMenuFilterStatus] = useState(false);
@@ -63,9 +65,16 @@ const Laboratorio = ({
     const [isOpenVerifyDelete, setIsOpenVerifyDelete] = useState(false);
     const [isDeleteLoad, setIsDeleteLoad] = useState(false);
     const [idToDelete, setIdToDelete] = useState(-1);
+    const [isThreeOption, setisThreeOption] = useState(0);
     const refSearch = useRef(null);
+
   
     const fetchLaboratorio = useFetch('laboratorio');
+
+    const refOptionOne = useRef(null);
+    const refOptionTwo = useRef(null);
+    const refOptionThree = useRef(null);
+
     // const fetchUploadImg = useFetch('');
   
     // FORM VARIABLES
