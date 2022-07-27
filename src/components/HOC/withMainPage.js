@@ -12,6 +12,7 @@ const AsyncClientContent = lazy(() => import('../organims/contents/Clients'));
 const AsyncSalesReportContent = lazy(() => import('../organims/contents/SalesReport'));
 const AsyncUsersReportContent = lazy(() => import('../organims/contents/Users'));
 const AsyncMonturasContent = lazy(() => import('../organims/contents/Monturas'));
+const AsyncLaboratorioContent = lazy(() => import('../organims/contents/Laboratorio'));
 
 const withMainPage = (Component) => (props) => {
   const { state: { page } } = useContext(Context);
@@ -26,6 +27,7 @@ const withMainPage = (Component) => (props) => {
   if (page === 'VENDEDORES') return <Component {...props} childComponent={<AsyncVendedorContent />} />;
   if (page === 'MONTURAS') return <Component {...props} childComponent={<AsyncMonturasContent />} />;
   if (page === 'PROVEEDORES') return <Component {...props} childComponent={<AsyncProveedorContent />} />;
+  if (page === 'LABORATORIOS') return <Component {...props} childComponent={<AsyncLaboratorioContent />} />;
 
   return <Component {...props} childComponent={<AsyncHomeContent />} />;
 };
