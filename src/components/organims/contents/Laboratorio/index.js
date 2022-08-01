@@ -34,6 +34,7 @@ const Laboratorio = ({
     setPageActual,
     laboratorioData,
     setLaboratorioMutate,
+    proveedorData,
     categoriesData,
     pages,
     setLimit,
@@ -71,9 +72,11 @@ const Laboratorio = ({
   
     const fetchLaboratorio = useFetch('laboratorio');
 //probando
-    const refOptionOne = useRef(null);
-    const refOptionTwo = useRef(null);
-    const refOptionThree = useRef(null);
+    const [OptionOne,setOptionOne] = useState('0');
+    const [visibleLabor,setVisibleLabor]=useState(true)
+    const [visibleProducto,setVisibleProducto]=useState(false)
+    const [visibleDetalle,setVisibleDetalle]=useState(false)
+
 
     // const fetchUploadImg = useFetch('');
   
@@ -174,6 +177,19 @@ const Laboratorio = ({
       clearErrors();
     };
   
+// CANCEL EDIT PANEL
+const handleLaboratorio = (OptionOne) => {
+  if (OptionOne === '0') {
+    <p>Opción 1</p>;
+  }
+  if (OptionOne === '1') {
+    <p>Opcion 2</p>;
+  }
+  if (OptionOne === '2') {
+    <p>Opcion 3</p>;
+  }
+};
+
     // CANCEL EDIT PANEL
     const handleCancel = () => {
       setIdLaboratorio(-1);
@@ -483,30 +499,20 @@ const Laboratorio = ({
                     : (
                       <>
                         <form className="flex flex-col w-full -mt-2 relative" onSubmit={handleSubmit(onSubmit)}>
-												{/* <button type="button" onClick={() => setIsOpenSearchByCategoryModal(true)} className="flex items-center w-1/2 justify-center rounded-full py-1 px-2.5 text-sm bg-primary hover:opacity-90 hover:ring ring-gray-200 text-white tap-highline-none">
-                      		<p className="mr-1.5 hidden sm:flex md:hidden lg:flex">Laboratorio</p>
-                      		<span><IconCategory /></span>
-                    		</button>
-												<button type="button" onClick={() => setIsOpenSearchByCategoryModal(true)} className="flex items-center w-1/2 justify-center rounded-full py-1 px-2.5 text-sm bg-primary hover:opacity-90 hover:ring ring-gray-200 text-white tap-highline-none">
-                      		<p className="mr-1.5 hidden sm:flex md:hidden lg:flex">Productos</p>
-                      		<span><IconCategory /></span>
-                    		</button>
-												<button type="button" onClick={() => setIsOpenSearchByCategoryModal(true)} className="flex items-center w-1/2 justify-center rounded-full py-1 px-2.5 text-sm bg-primary hover:opacity-90 hover:ring ring-gray-200 text-white tap-highline-none">
-                      		<p className="mr-1.5 hidden sm:flex md:hidden lg:flex">Detalle</p>
-                      		<span><IconCategory /></span>
-                    		</button> */}
-                        <div className="flex justify-end space-x-5  mt-3 sm:mt-4">
+												  <div className="flex justify-end space-x-5  mt-3 sm:mt-4">
                             <button
                               className="flex items-center justify-center p-1.5 text-white text-sm sm:text-base bg-yellow-500 hover:bg-yellow-600 opacity-90 hover:opacity-100 rounded-xl w-24 sm:w-40 cursor-pointer focus:outline-none"
                               type="button"
-                              onClick={() => handleCancel()}
+                              onClick={()=>setVisibleLabor(true) || setVisibleProducto(false)|| setVisibleDetalle(false)}
+                              
                             >
                               <div className="">Laborat.</div>
                             </button>
                             <button
                               className="flex items-center justify-center p-1.5 text-white text-sm sm:text-base bg-green-500 hover:bg-green-600 opacity-90 hover:opacity-100 rounded-xl w-24 sm:w-40 cursor-pointer focus:outline-none"
-                              type="submit"
-                              onClick={() => handleSubmit()}
+                              type="button"
+                              onClick={()=>setVisibleProducto(true)||setVisibleLabor(true)|| setVisibleDetalle(false)}
+                              
                             >
                               <div className="">
                                 Producto
@@ -515,18 +521,18 @@ const Laboratorio = ({
                             <button
                               className="flex items-center justify-center p-1.5 text-white text-sm sm:text-base bg-purple-500 hover:bg-purple-600 opacity-90 hover:opacity-100 rounded-xl w-24 sm:w-40 cursor-pointer focus:outline-none"
                               type="submit"
-                              onClick={() => handleSubmit()}
+                              onClick={()=>setVisibleProducto(true)||setVisibleLabor(true)|| setVisibleDetalle(true)}
                             >
                               <div className="">
                                 Detalle
                               </div>
                             </button>
                           </div>
-                          <FormTextInput inputName="prodlab"
-                            title="Descripción"
+                          {visibleLabor?<view>
+                            <FormTextInput inputName="prodlab"
+                            title="Descripción"                           
                             icon={<IconUserCircle />}
                             placeholder="Ingresar Descripción"
-                            //placeholder={`Ingresar ${watch('ruc') === 'ruc' ? 'Razón Social' : 'Nombre del Vendedor'}`}
                             options={{
                               required: {
                                 value: true,
@@ -539,15 +545,60 @@ const Laboratorio = ({
                             }}
                             register={register} errors={errors}
                           />
+                          </view>:null}
                           
-                          
-                          <FormTextInput inputName="nivel"
+                          {visibleProducto?
+                          <view>
+                            <FormSelectInput inputName="idproveedor"
+                              title="Proveedor"
+                              icon={<IconSearch />}
+                              placeholder="Proveedor"
+                              options={{
+                              validate: {
+                                value: (e) => e !== 'select' || 'Proveedor requerido',
+                              },
+                              }}
+                              register={register} errors={errors} watch={watch}
+                            >
+                            {Array.isArray(proveedorData)
+                            && proveedorData.map((item) => (
+                              <option key={item.id} value={item.id} className="capitalize text-gray-700">
+                                {item.razonsocial}
+                              </option>
+                            ))}
+                          </FormSelectInput> 
+                          </view>:null}
+                      
+                          {visibleDetalle?
+                          <view>
+                            <FormSelectInput inputName="idproveedor"
+                              title="Productos"
+                              icon={<IconSearch />}
+                              placeholder="Proveedor"
+                              options={{
+                              validate: {
+                              value: (e) => e !== 'select' || 'Proveedor requerido',
+                              },
+                              }}
+                              register={register} errors={errors} watch={watch}
+                            >
+                            {Array.isArray(proveedorData)
+                            && proveedorData.map((item) => (
+                              <option key={item.id} value={item.id} className="capitalize text-gray-700">
+                                {item.razonsocial}
+                              </option>
+                            ))}
+                          </FormSelectInput> 
+                          </view>:null}
+                      {/* <FormTextInput inputName="nivel"
+                            //title={OptionOne==='0' ? 'Laboratorios' : OptionOne==='1' ? 'Productos' : 'Detalles'}
                             title="Nivel"
                             icon={<IconPhone />}
                             type="money"
                             placeholder="Ingresar N° Telefono (opcional)"
                             options={{
                               pattern: {
+
                                 value: /^[0-9]+$/,
                                 message: 'Teléfono invalido',
                               },
@@ -568,7 +619,7 @@ const Laboratorio = ({
                             icon={<IconObservation />}
                             placeholder="Ingresar Persona de Contacto (opcional)"
                             register={register} errors={errors}
-                          />
+                          /> */}
                            
                           <div className="flex justify-end space-x-5  mt-3 sm:mt-4">
                             <button
@@ -630,6 +681,10 @@ const Laboratorio = ({
     idLaboratorio: PropTypes.number.isRequired,
     setIdLaboratorio: PropTypes.func.isRequired,
     laboratorioByIdData: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.arrayOf(PropTypes.shape()),
+    ]).isRequired,
+    proveedorData: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.arrayOf(PropTypes.shape()),
     ]).isRequired,

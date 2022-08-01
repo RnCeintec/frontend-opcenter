@@ -5,18 +5,22 @@ import { useEffect, useState } from 'react';
 import { useFetch } from '../../../../hook';
 import usePaginationTest from '../../../../hook/usePaginationtest';
 import { errorAlert } from '../../../../utils/alertNotify';
-
+//
 const withFetch = (Component) => (props) => {
     const [isLoadingSearchLaboratorio, setIsLoadingSearchLaboratorio] = useState(false);
     const [categoryId, setCategoryId] = useState(0);
+    const [nivelLaboratorioId, setNivelLaboratorioId] = useState(0);
     const [laboratorioCount, setLaboratorioCount] = useState(1);
     const [limit, setLimit] = useState(10);
     const [pageActual, setPageActual] = useState(0);
     const [searchLaboratorio, setSearchLaboratorio] = useState('');
     const [laboratorioMutate, setLaboratorioMutate] = useState(null);
+    const [nivelLaboratorioListMutate, setNivelLaboratorioListMutate] = useState(null);
     const [categoryListMutate, setCategoryListMutate] = useState(null);
     const [filterStatus, setFilterStatus] = useState('Cocina,Baño,Sala');
-  
+    const [proveedorData, setProveedorData] = useState('');
+    const [nivelLaboratorioData, setNivelLaboratorioData] = useState('');
+
     // const { data: adminData, error: adminError, mutate: adminMutate } = useSWR(
     //   `${APIAdmin}/?limit=${limit}&offset=${pageActual}&search=${searchAdmin}`,
     // );
@@ -25,6 +29,8 @@ const withFetch = (Component) => (props) => {
   
     // FETCHS
     const fetchLaboratorio = useFetch('laboratorio');
+    const fetchProveedor = useFetch('proveedor');
+    const fetchNivelLaboratorio = useFetch('nivellaboratorio');
   
     const [idLaboratorio, setIdLaboratorio] = useState(-1);
     const [laboratorioByIdData, setLaboratorioByIdData] = useState(null);
@@ -47,6 +53,36 @@ const withFetch = (Component) => (props) => {
       // isLoading,
     });
   
+    const getDataCategories = async () => {
+      try {
+        const [result, status] = await fetchProveedor.get('?search=&limit=all&offset=0');
+        // const [result, status] = await fetchProveedor.post({ descripcion: searchMontura }); // ONLY FOR TEST
+        if (status === 200) {
+          setProveedorData(result);
+        } else {
+          errorAlert('Error al cargar Categorias');
+        }
+      } catch (error) {
+        console.log(error);
+        errorAlert('Error al cargar Categorias');
+        setProveedorData({ result: [] });
+      }
+    };
+    const getDataNivelLaboratorio = async () => {
+      try {
+        const [result, status] = await fetchNivelLaboratorio.get('?search=&limit=all&offset=0');
+        // const [result, status] = await fetchProveedor.post({ descripcion: searchMontura }); // ONLY FOR TEST
+        if (status === 200) {
+          setNivelLaboratorioData(result);
+        } else {
+          errorAlert('Error al cargar Categorias');
+        }
+      } catch (error) {
+        console.log(error);
+        errorAlert('Error al cargar Categorias');
+        setNivelLaboratorioData({ result: [] });
+      }
+    };
     const getDataLaboratorio = async () => {
       try {
         const [result, status] = await fetchLaboratorio.get(`?search=${searchLaboratorio}&${query}`);
@@ -81,6 +117,13 @@ const withFetch = (Component) => (props) => {
         setLaboratorioByIdData([]);
       }
     };
+    useEffect(() => {
+      getDataCategories();
+    }, [categoryId, categoryListMutate]);
+
+    useEffect(() => {
+      getDataNivelLaboratorio();
+    }, [nivelLaboratorioId, nivelLaboratorioListMutate]);
   
     useEffect(() => {
       getDataLaboratorio();
@@ -108,6 +151,9 @@ const withFetch = (Component) => (props) => {
           categoryId={categoryId}
           setCategoryId={setCategoryId}
           setCategoryListMutate={setCategoryListMutate}
+          nivelLaboratorioId={nivelLaboratorioId}
+          setNivelLaboratorioId={setNivelLaboratorioId}
+          setNivelLaboratorioListMutate={setNivelLaboratorioListMutate}
           pageActual={pageActual}
           setPageActual={setPageActual}
           laboratorioData={laboratorioData?.result || ['loading']}
@@ -121,6 +167,7 @@ const withFetch = (Component) => (props) => {
           setIdLaboratorio={setIdLaboratorio}
           laboratorioByIdData={laboratorioByIdData?.result || ['loading']}
           filterStatus={filterStatus}
+          proveedorData={proveedorData?.result || ['loading']}
           setFilterStatus={setFilterStatus}
           page={page || 1}
           pageRange={pageRange}
