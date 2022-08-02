@@ -86,6 +86,8 @@ const Sales = ({
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
   const [data, setData] = useState({});
   const [isTwoPaysChecked, setIsTwoPaysChecked] = useState(false);
+  const [isAcuentaChecked, setIsAcuentaChecked] = useState(false);
+
   const [payCantOne, setPayCantOne] = useState((0).toFixed(2));
   const [payCantTwo, setPayCantTwo] = useState((0).toFixed(2));
   const [resetIframe, setResetIframe] = useState("");
@@ -1329,6 +1331,85 @@ const Sales = ({
                       </div>
                     </div>
                   </label>
+                  <label
+                    htmlFor="checkAcuenta"
+                    className="relative flex items-center space-x-3 mb-1 select-none"
+                  >
+                    <div
+                      className={`${
+                        isAcuentaChecked ? "ring-blue-400" : " "
+                      } group flex items-center pl-2.5 pr-2.5 py-0.5 w-full ring-0 focus:ring-0 md:hover:ring-primary bg-white ring-gray-400 text-gray-800 rounded-full focus:outline-none`}
+                    >
+                      <input
+                        type="checkbox"
+                        id="checkAcuenta"
+                        checked={isAcuentaChecked}
+                        onChange={(e) => {
+                          setIsAcuentaChecked(e.target.checked);
+                          refPayMethodOne.current.value = "acuenta";
+                        }}
+                        className={`${
+                          isAcuentaChecked
+                            ? "border-primary"
+                            : "md:group-hover:border-primary border-gray-400"
+                        } relative appearance-none h-4 w-4 checked:bg-primary border rounded-full focus:outline-none`}
+                      />
+                      <span className="flex items-center ml-0.5 w-3 h-3 text-white absolute">
+                        <IconCheck />
+                      </span>
+                      <div className="flex items-center ml-1">
+                        <div
+                          className={`${
+                            isAcuentaChecked ? "text-gray-700" : "text-gray-500"
+                          } ml-1 text-sm whitespace-nowrap`}
+                        >
+                          A cuenta
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <div className="">
+                  <div className="flex text-sm relative">
+                    <p className="font-semibold text-gray-700 ml-2 pl-1 sm:font-semibold ">{`${
+                      isAcuentaChecked ? "A Cuenta" : ""
+                    } `}</p>
+                  </div>
+                  <div className="flex items-start space-x-2 mb-2">
+                    <label
+                      htmlFor="checkAcuenta"
+                      className={`flex flex-col justify-center ${
+                        isAcuentaChecked ? " w-1/2" : "w-full"
+                      }`}
+                    >
+                        {isAcuentaChecked && (
+                      <div className="relative">
+                      <input
+                            placeholder="Ingresar Monto"
+                            inputMode="decimal"
+                            pattern="[0-9.]*"
+                            step={0.01}
+                            type="number"
+                            onChange={(e) =>
+                              handleChangePrice(
+                                e,
+                                setPayCantOne,
+                                setPayCantTwo,
+                                "payCantOne",
+                                "payCantTwo"
+                              )
+                            }
+                       
+                            className={`${
+                              errors?.payCantOne
+                                ? "ring-red-500"
+                                : "ring-blue-400"
+                            } bg-white pl-3 pr-3 py-0.5 text-sm rounded-xl w-full ring-1 focus:ring-2 focus:outline-none text-gray-800`}
+                          />
+                      </div>
+                        )}
+                    </label>
+                  </div>
                 </div>
 
                 <div className="">

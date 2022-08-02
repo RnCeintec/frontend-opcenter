@@ -77,7 +77,7 @@ const withFetch = (Component) => (props) => {
 
   useEffect(() => {
     if (searchMontura) {
-      getDataProducts();
+      // getDataProducts();
     }
   }, [categoryActive, searchProduct, query]);
 

@@ -85,22 +85,22 @@ const SearchByMontura = ({
   const handleSelectMontura = (idValue) => {
     const dataToInsert = monturasData.filter((item) => item.id === idValue)[0];
     setDataMonturaSelected(dataToInsert);
-    refMontura.current.value = dataToInsert.descripcion;
-    setMonturaActive(dataToInsert.descripcion);
-    setSearchMontura(dataToInsert.descripcion);
+    refMontura.current.value = dataToInsert.idmontura;
+    setMonturaActive(dataToInsert.id);
+    setSearchMontura(dataToInsert.id);
     setIsOpenSearchListMontura(false);
   };
 
   // <----- SELECT AN ELEMENT OF THE SEARCH -------->
   const handleSelectProduct = (idValue) => {
-    const product = productsData.filter((item) => item.id === idValue)[0];
+    const product = monturasData.filter((item) => item.id === idValue)[0];
     const productToAdd = {
       id: product.id,
-      cod: product.codigo,
-      product: product.descripcion,
-      category: product.category.descripcion,
+      cod: "M"+product.idmontura,
+      product: "M"+product.idmontura+"-"+product.marca,
+      category: "Montura",
       // precioCompra: product.precio_compra,
-      price: product.precio_sugerido,
+      price: product.venta,
       cant: 1,
     };
     // FINAL TODO
@@ -225,7 +225,7 @@ const SearchByMontura = ({
                   className="flex flex-row justify-end w-full sm:w-auto relative "
                 >
                   <input
-                    ref={refProduct}
+                    ref={refMontura}
                     className="pl-3 pr-8 p-1 w-full bg-white rounded-xl appearance-none focus:outline-none border border-gray-300 focus:border-blue-400"
                     type="text"
                     placeholder="Buscar"
@@ -263,19 +263,19 @@ const SearchByMontura = ({
                 </div>
               </div>
               <div className="flex flex-col rounded-b-xl border-l border-b border-r border-blue-400 overflow-y-auto h-60">
-                {Array.isArray(productsData) && productsData[0] === 'loading'
+                {Array.isArray(monturasData) && monturasData[0] === 'loading'
                   ? <div><IconSpiner /></div>
-                  : !Array.isArray(productsData) || productsData.length === 0
+                  : !Array.isArray(monturasData) || monturasData.length === 0
                     ? <div className="flex items-center justify-center p-2 text-gray-400 italic">No se encontraron productos</div>
-                    : Array.isArray(productsData) && productsData.map((item, i) => (
+                    : Array.isArray(monturasData) && monturasData.map((item, i) => (
                       <button
                         key={item.id}
                         type="button"
                         onClick={() => handleSelectProduct(item.id)}
-                        className={`${(productsData.length - 1) !== i ? 'border-b' : 'border-b'} px-2 p-1 flex justify-between w-full hover:bg-blue-500 hover:text-white`}
+                        className={`${(monturasData.length - 1) !== i ? 'border-b' : 'border-b'} px-2 p-1 flex justify-between w-full hover:bg-blue-500 hover:text-white`}
                       >
-                        <p className="text-sm text-left truncate ">{item.descripcion}</p>
-                        <p className="text-sm text-left ml-2">{parseFloat(item.precio_sugerido).toFixed(2)}</p>
+                        <p className="text-sm text-left truncate ">{item.id}</p>
+                        <p className="text-sm text-left ml-2">{parseFloat(item.venta).toFixed(2)}</p>
                       </button>
                     ))}
               </div>
