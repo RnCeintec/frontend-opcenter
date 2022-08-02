@@ -21,6 +21,10 @@ body{
   background-color: #399fff; /*Fondo Panel*/
   
 } 
+.bg-bg-purple{
+  background-color: #9D16CF; /*Fondo Panel*/
+  
+} 
 
 .bg-custom-blue{
   background-image: linear-gradient(140deg, #aeffff 0, #78e6ff 25%, #0cc1ed 50%, #009dd4 75%, #007fc0 100%);

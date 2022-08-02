@@ -35,7 +35,7 @@ const Products = ({
   setLimit,
   setSearchMontura,
   searchMontura,
-  setIdMontura,
+  setIdMonturas,
   idMontura,
   monturasByIdData,
   setFilterStatus,
@@ -122,7 +122,7 @@ const Products = ({
   // <--------- EDIT AND CREATE ADMIN ---------> ✍
   // SELECT ADMIN TO EDIT
   const handleEditProduct = (id) => {
-    setIdMontura(id);
+    setIdMonturas(id);
     setIsRowBlocked(true);
     setRowSelected(id);
     setTypeOfPanel('Editar');
@@ -132,22 +132,30 @@ const Products = ({
       setIsLoadingSelectItem(true);
     }
     if (idMontura === id) {
-      setFocus('code');
+      setFocus('idmontura');
     }
   };
 
   // INSERT DATA IN REACT HOOK FORM
   useEffect(() => {
     if (typeOfPanel === 'Editar') {
-      setValue('id', monturasByIdData.id || '');
       setValue('idmontura', monturasByIdData.idmontura || '');
+      setValue('idproveedor', monturasByIdData.ingreso?.proveedor?.id || '');
       setValue('marca', monturasByIdData.marca || '');
       setValue('modelo', monturasByIdData.modelo || '');
       setValue('tipo', monturasByIdData.tipo || '');
-      setValue('talla', monturasByIdData.talla || '');
+      setValue('color', monturasByIdData.color || '');
+      setValue('documento', monturasByIdData.ingreso?.documento || '');
+      setValue('numero', monturasByIdData.ingreso?.numero_documento || '');
+      setValue('comentario', monturasByIdData.comentario || '');
+      setValue('costo', monturasByIdData.costo || '');
+      setValue('venta', monturasByIdData.venta || '');
+      setValue('tope', monturasByIdData.tope || '');
+      setValue('cantidad', 1 || '');
+
       // setValue('stock', monturasByIdData.stock || '');
       clearErrors();
-      if (monturasByIdData.descripcion) {
+      if (monturasByIdData.idmontura) {
         setIsLoadingSelectItem(false);
       }
     }
@@ -155,37 +163,52 @@ const Products = ({
 
   // LIMPIAR EDIT PANEL
   const clearInputs = () => {
-    setIdMontura(-1);
-    setValue('id', '');
+    setIdMonturas(-1);
+    // setValue('id', '');
     setValue('idmontura', '');
-    // setValue('category', 'select');
-    setCategoryId(0);
+    setValue('documento', '');
+    setValue('numero', '');
+
     setValue('marca', '');
     setValue('modelo', '');
     setValue('tipo', '');
-    // setValue('stock', '');
+    setValue('color', '');
+    setValue('costo', '');
+    setValue('venta', '');
+    setValue('tope', '');
+    setValue('cantidad', '');
+
     clearErrors();
   };
 
   // CANCEL EDIT PANEL
   const handleCancel = () => {
-    setIdMontura(-1);
+    setIdMonturas(-1);
     setIsRowBlocked(false);
     setTypeOfPanel('Ingresar');
     clearInputs();
   };
 
   // CREATE ADMIN
-  const createProduct = async (data) => {
+  const createMontura = async (data) => {
+    let local_storage = JSON.parse(localStorage.getItem("localData"))
+debugger
     setIsLoaderSubmit(true);
     const dataToAdd = {
-      codigo: data.code,
-      description: data.description,
-      precio_compra: data.precioCompra,
-      precio_sugerido: data.precioSugerido,
-     precio_minimo: data.precio_minimo,
-      // categoria: data.category,
-      // stock: data.stock,
+          marca:data.marca,
+          modelo:data.modelo,
+          tipo:data.tipo,
+          color:data.color,
+            comentario:data.comentario,
+            venta:data.venta,
+            costo:data.costo,
+            tope:data.tope,
+            idproveedor:data.idproveedor,
+            documento:data.documento,
+            numero:data.numero,
+            idmontura:data.idmontura,
+            cantidad:data.cantidad,
+            local_id : local_storage.id
     };
     const [result, status] = await fetchMontura.post(dataToAdd);
     if (status !== 200) {
@@ -196,7 +219,7 @@ const Products = ({
       setIsLoaderSubmit(false);
       // await productByIdMutate();
       clearInputs();
-      successAlert('Producto Creado Correctamente');
+      successAlert('Montura Creada Correctamente');
     }
     // }
     //   else {
@@ -206,16 +229,24 @@ const Products = ({
   };
 
   // EDIT ADMIN
-  const editProduct = async (data) => {
+  const editMontura = async (data) => {
     // console.log('editando');
+    let local_storage = JSON.parse(localStorage.getItem("localData"))
     setIsLoaderSubmit(true);
     const dataToAdd = {
-      description: data.description,
-      precio_compra: data.precioCompra,
-      precio_sugerido: data.precioSugerido,
-      precio_minimo: data.precio_minimo,
-      // categoria: data.category,
-      // stock: data.stock,
+        marca:data.marca,
+        modelo:data.modelo,
+        tipo:data.tipo,
+        color:data.color,
+        comentario:data.comentario,
+        venta:data.venta,
+        costo:data.costo,
+        tope:data.tope,
+        idproveedor:data.idproveedor,
+        documento:data.documento,
+        numero:data.numero,
+        idmontura:data.idmontura,
+        local_id : local_storage.id
     };
     try {
       const [result, status] = await fetchMontura.put(idMontura, dataToAdd);
@@ -229,7 +260,7 @@ const Products = ({
         setTypeOfPanel('Ingresar');
         setIsRowBlocked(false);
         clearInputs();
-        successAlert('Producto Actualizado Correctamente');
+        successAlert('Montura Actualizada Correctamente');
       }
     } catch (error) {
       console.log(error);
@@ -246,14 +277,15 @@ const Products = ({
   // SUBMIT CREATE AND EDIT
   const onSubmit = async (data) => {
     if (typeOfPanel === 'Ingresar') {
-      await createProduct(data);
+      await createMontura(data);
     } else if (typeOfPanel === 'Editar') {
-      await editProduct(data);
+      await editMontura(data);
     }
   };
 
   // DELETE ADMIN
   const handleDeleteProduct = async () => {
+    debugger
     setIsDeleteLoad(true);
     const id = idToDelete;
     try {
@@ -414,11 +446,7 @@ const Products = ({
                           <p className="whitespace-nowrap">Tipo</p>
                         </div>
                       </th>
-                      <th className="border-r border-b border-gray-200 px-2 py-2 font-medium">
-                        <div className="text-sm">
-                          <p className="whitespace-nowrap">Talla</p>
-                        </div>
-                      </th>
+                   
                       <th className="border-r border-b border-gray-200 px-2 py-2 font-medium">
                         <div className="text-sm">
                           <p className="whitespace-nowrap">Color</p>
@@ -474,14 +502,13 @@ const Products = ({
                             {/* <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.category?.descripcion || ''}</td> */}
                             <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.modelo || ''}</td>
                             <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.tipo || ''}</td>
-                            <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.talla || ''}</td>
                             <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.color || ''}</td>
                             <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.comentario || ''}</td>
                             <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.costo || ''}</td>
                             <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.venta || ''}</td>
                             <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.tope || ''}</td>
-                            <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.ventas.comprobante || ''}</td>
-                            <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.tienda.rz_social || ''}</td>
+                            <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.ventas?.comprobante || ''}</td>
+                            <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.tienda?.rz_social || ''}</td>
 
                             {/* <td className="border border-gray-350 px-2 py-2 font-medium capitalize">{item.stock}</td> */}
                             {/* <td className="border border-gray-350 px-2 py-2 font-medium capitalize">Activo</td> */}
@@ -851,7 +878,7 @@ Products.propTypes = {
   setSearchMontura: PropTypes.func.isRequired,
   searchMontura: PropTypes.string.isRequired,
   idMontura: PropTypes.number.isRequired,
-  setIdMontura: PropTypes.func.isRequired,
+  setIdMonturas: PropTypes.func.isRequired,
   monturasByIdData: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.arrayOf(PropTypes.shape()),
