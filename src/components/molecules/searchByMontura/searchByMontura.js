@@ -103,6 +103,7 @@ const SearchByMontura = ({
       price: product.venta,
       cant: 1,
     };
+    const prueba = "";
     // FINAL TODO
 
     if ('cart' in localStorage) {
