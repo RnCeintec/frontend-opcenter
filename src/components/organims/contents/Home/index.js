@@ -10,14 +10,22 @@ import {
 import withFetch from './withFetch';
 
 dayjs.locale('es');
+debugger
 
 const Home = ({ dataDashboard }) => {
   const {
     TgananciaMensual, TgananciaSemanal, TotalAnulado,
     TotalPagado, TotalProductos, TotalVentas,
-    masVendidos, ultimasVentas,
+    masVendidos, ultimasVentas,pedidosLunas
   } = dataDashboard;
+  
+  const handlePasarVenta= (id) => {
 
+    alert("Pasar a venta "+id)
+    // if (idVendedor === id) {
+    //   setFocus('document');
+    // } // borrar
+  };
   // console.log(dataDashboard);
 
   return (
@@ -162,9 +170,40 @@ const Home = ({ dataDashboard }) => {
           </div>
           <div className="w-full sm:w-1/2 bg-white rounded-xl shadow">
             <div className="border-b text-gray-800 font-semibold pl-4 p-2">
-              Consulta Interna
+              Pacientes por atender - Consultas
             </div>
             <div className="p-4 ">
+              {dataDashboard === 'loading'
+                ? (
+                  <div className="flex items-center justify-center py-2">
+                    <IconSpiner dark medium />
+                  </div>
+                )
+                : pedidosLunas.length === 0
+                  ? <div className="text-gray-600 italic">No hay Registro de Ventas</div>
+                  : (
+                    <table className="table-fixed text-center text-gray-700 w-full">
+                      <thead>
+                        <tr className="border-l border-r border-gray-400 bg-green-500 text-white">
+                          <th className="border-r border-b border-gray-200 py-2 font-medium">Paciente</th>
+                          <th className="border-r border-b border-gray-200 py-2 px-1.5 font-medium">Documento</th>
+                          <th className="border-b border-gray-200 py-2 px-1.5 font-medium">Precio (S/)</th>
+                        </tr>
+                      </thead>
+                      <tbody className="">
+                        {pedidosLunas.map((item) => (
+                          <tr key={item.id}>
+                            <td className="border border-gray-350 py-2 font-medium capitalize" ><a href="#" class="no-underline hover:underline" onClick={() => { handlePasarVenta(item.diotria_id.id);}}> {item.paciente.rz_social}</a></td>
+                            <td className="border border-gray-350 py-2 font-medium text-sm whitespace-nowrap"><a href="#" class="no-underline hover:underline" onClick={() => { handlePasarVenta(item.diotria_id.id);}}>{item.paciente.documento}</a></td>
+                            {/* <td className="text-sm border border-gray-350 py-2 font-medium">{`s/${item.finalAmount}`}</td> */}
+                            <td className="border border-gray-350 py-2 font-medium"><a href="#" class="no-underline hover:underline" onClick={() => { handlePasarVenta(item.diotria_id.id);}}>{item.precio}</a></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+            </div>
+            {/* <div className="p-4 ">
               {dataDashboard === 'loading'
                 ? (
                   <div className="flex items-center justify-center py-2">
@@ -187,14 +226,13 @@ const Home = ({ dataDashboard }) => {
                           <tr key={item.id}>
                             <td className="border border-gray-350 py-2 font-medium capitalize">{item.tipo_comprobante}</td>
                             <td className="border border-gray-350 py-2 font-medium text-sm whitespace-nowrap">{item.comprobante}</td>
-                            {/* <td className="text-sm border border-gray-350 py-2 font-medium">{`s/${item.finalAmount}`}</td> */}
                             <td className="border border-gray-350 py-2 font-medium">{item.total}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   )}
-            </div>
+            </div> */}
           </div>
         </div>
 

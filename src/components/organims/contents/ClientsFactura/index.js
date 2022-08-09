@@ -65,7 +65,7 @@ const Clients = ({
   const [idToDelete, setIdToDelete] = useState(-1);
   const refSearch = useRef(null);
 
-  const fetchClient = useFetch('client');
+  const fetchClient = useFetch('client_factura');
   // const fetchUploadImg = useFetch('');
 
   // FORM VARIABLES
@@ -305,7 +305,7 @@ const Clients = ({
       <div className="flex flex-col items-center bg-bg-blue w-full min-h-screen box-border">
         <div className="pl-4 pt-2 flex w-full h-12 sm:h-16 bg-white shadow-sm">
           <div className="flex text-2xl sm:text-4xl text-gray-800 font-semibold">
-            Pacientes
+            Clientes a facturar
             <div className="text-primary opacity-80 w-7 sm:w-10 ml-1">
               <IconUsersSolid autosize />
             </div>
@@ -418,7 +418,7 @@ const Clients = ({
                     <tr className="border-l border-gray-400 bg-primary opacity-90 text-white">
                       <th className="border-r border-b border-gray-200 px-2 py-2 font-medium">Documento</th>
                       <th className="border-r border-b border-gray-200 px-2 py-2 font-medium text-sm">N° Documento</th>
-                      <th className="border-r border-b border-gray-200 px-6 py-2 font-medium whitespace-nowrap">Nombre</th>
+                      <th className="border-r border-b border-gray-200 px-6 py-2 font-medium whitespace-nowrap">Nombre / Razon Social</th>
                       <th className="border-r border-b border-gray-200 px-2 py-2 font-medium">Teléfono</th>
                       <th className="border-r border-b border-gray-200 px-12 py-2 font-medium">Dirección</th>
                       <th className="border-r border-b border-gray-200 px-2 py-2 font-medium">Observación</th>
@@ -518,7 +518,7 @@ const Clients = ({
               <div className="text-green-600 border-b border-gray-300 rounded-t font-bold pl-4 p-2">
                 {typeOfPanel}
                 {' '}
-                Paciente
+                Cliente
               </div>
               <div className="flex flex-col w-full pt-3 p-4">
 
