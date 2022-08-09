@@ -9,14 +9,17 @@ export const menus = [
   { name: 'Dashboard', payload: 'HOME', icon: 'iconDashboard' },
   { name: 'Tiendas', payload: 'LOCALES', icon: 'iconLocal', role:'admin'},
   { name: 'Usuarios', payload: 'USERS', icon: 'iconUsers', role: 'admin' },
+  { name: 'Atención', payload: 'PEDIDOS', icon: 'IconIdCard', role: 'optometra' },
   { name: 'Vendedores', payload: 'VENDEDORES', icon: 'IconIdCard', role: 'admin' },
   { name: 'Proveedores', payload: 'PROVEEDORES', icon: 'iconClients', role: 'admin' },
   { name: 'Laboratorio', payload: 'LABORATORIOS', icon: 'IconTickets', role: 'admin' },
   { name: 'Facturación Elect.', payload: 'BILLING', icon: 'iconBilling', role: 'admin' },
   { name: 'Ventas', payload: 'SALES', icon: 'iconSales' },
   { name: 'Monturas', payload: 'MONTURAS', icon: 'iconMontura' },
-  { name: 'Productos', payload: 'PRODUCTS', icon: 'iconProducts' },
-  { name: 'Clientes', payload: 'CLIENTS', icon: 'iconClients' },
+  { name: 'Accesorios', payload: 'PRODUCTS', icon: 'iconProducts' },
+  { name: 'Pacientes', payload: 'CLIENTS', icon: 'iconClients' },
+  { name: 'Clientes a facturar', payload: 'CLIENTS_FACTURAS', icon: 'iconClients' },
+
   { name: 'Reporte de Ventas', payload: 'SALES_REPORT', icon: 'iconReport' },
  
 ];

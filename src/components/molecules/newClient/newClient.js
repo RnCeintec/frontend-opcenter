@@ -56,7 +56,7 @@ const NewClient = ({
           <button type="button" onClick={() => setIsOpenNewClientModal(false)} className="absolute right-5 top-3 text-gray-600 hover:text-gray-800 z-40">
             <IconClose />
           </button>
-          <p className="text-xl text-center text-gray-700 font-semibold mb-1">Nuevo Cliente</p>
+          <p className="text-xl text-center text-gray-700 font-semibold mb-1">Nuevo Paciente</p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
 
@@ -123,11 +123,11 @@ const NewClient = ({
 
             <label htmlFor="client" className="w-full relative mt-1 mb-2 flex flex-col justify-center ">
               <div className="flex z-10 text-sm">
-                <p className="font-semibold text-gray-700 ml-2 pl-1 sm:font-semibold ">{watch('documentType') === 'ruc' ? 'Razón Social' : 'Nombre del Cliente'}</p>
+                <p className="font-semibold text-gray-700 ml-2 pl-1 sm:font-semibold ">{watch('documentType') === 'ruc' ? 'Razón Social' : 'Nombre del Paciente'}</p>
                 <p className="text-red-600 pr-1">*</p>
               </div>
               <input
-                placeholder={`Ingresar ${watch('documentType') === 'ruc' ? 'Razón Social' : 'Nombre del Cliente'}`}
+                placeholder={`Ingresar ${watch('documentType') === 'ruc' ? 'Razón Social' : 'Nombre del Paciente'}`}
                 type="text"
                 className={`${errors?.client ? 'ring-red-500' : 'ring-blue-400'} bg-white pl-3 pr-3 py-1 text-sm rounded-xl w-full ring-1 focus:ring-2 focus:outline-none text-gray-800`}
                 {...register(
@@ -164,7 +164,7 @@ const NewClient = ({
                   {
                     required: {
                       value: true,
-                      message: 'Dirección del Cliente Requerido',
+                      message: 'Dirección del Paciente Requerido',
                     },
                   },
                 )
