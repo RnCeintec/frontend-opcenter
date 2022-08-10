@@ -8,6 +8,9 @@ import {
   IconSpiner, IconGain, IconEyeOpen,
 } from '../../../../assets/icons/icons';
 import withFetch from './withFetch';
+import ButtonPrimaryOnclick from "../../../atoms/buttons/buttonPrimaryOnclick";
+import { lazy,Component } from 'react';
+const AsyncSalesContent = lazy(() => import('../Sales'));
 
 dayjs.locale('es');
 debugger
@@ -19,9 +22,10 @@ const Home = ({ dataDashboard }) => {
     masVendidos, ultimasVentas,pedidosLunas
   } = dataDashboard;
   
-  const handlePasarVenta= (id) => {
+  const handlePasarVenta= (id) => (props)=> {
+    // alert("Pasar a venta "+id)
+  
 
-    alert("Pasar a venta "+id)
     // if (idVendedor === id) {
     //   setFocus('document');
     // } // borrar
@@ -193,7 +197,9 @@ const Home = ({ dataDashboard }) => {
                       <tbody className="">
                         {pedidosLunas.map((item) => (
                           <tr key={item.id}>
-                            <td className="border border-gray-350 py-2 font-medium capitalize" ><a href="#" class="no-underline hover:underline" onClick={() => { handlePasarVenta(item.diotria_id.id);}}> {item.paciente.rz_social}</a></td>
+                            <td className="border border-gray-350 py-2 font-medium capitalize" > <ButtonPrimaryOnclick
+            title={item.paciente.rz_social}
+            onClick={() => handlePasarVenta(item.diotria_id.id)}></ButtonPrimaryOnclick></td>
                             <td className="border border-gray-350 py-2 font-medium text-sm whitespace-nowrap"><a href="#" class="no-underline hover:underline" onClick={() => { handlePasarVenta(item.diotria_id.id);}}>{item.paciente.documento}</a></td>
                             {/* <td className="text-sm border border-gray-350 py-2 font-medium">{`s/${item.finalAmount}`}</td> */}
                             <td className="border border-gray-350 py-2 font-medium"><a href="#" class="no-underline hover:underline" onClick={() => { handlePasarVenta(item.diotria_id.id);}}>{item.precio}</a></td>
