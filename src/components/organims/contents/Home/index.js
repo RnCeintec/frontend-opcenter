@@ -1,4 +1,6 @@
 /* eslint-disable max-len */
+import { useState,useEffect} from 'react';
+
 import { Doughnut } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
@@ -9,8 +11,8 @@ import {
 } from '../../../../assets/icons/icons';
 import withFetch from './withFetch';
 import ButtonPrimaryOnclick from "../../../atoms/buttons/buttonPrimaryOnclick";
-import { lazy,Component } from 'react';
-const AsyncSalesContent = lazy(() => import('../Sales'));
+import SearchByMontura from "../../../molecules/modal_sales/sales";
+import Portal from "../../../../utils/portal";
 
 dayjs.locale('es');
 debugger
@@ -21,11 +23,15 @@ const Home = ({ dataDashboard }) => {
     TotalPagado, TotalProductos, TotalVentas,
     masVendidos, ultimasVentas,pedidosLunas
   } = dataDashboard;
-  
-  const handlePasarVenta= (id) => (props)=> {
-    // alert("Pasar a venta "+id)
-  
+  const [isOpenSearchByMonturaModal, setIsOpenSearchByMonturaModal] =useState(false);
 
+  const [atencionId, setAtencionId] = useState(0);
+
+  const handlePasarVenta= (id) =>  {
+    // alert("Pasar a venta "+id)
+    // useState(true)
+    localStorage.setItem("atencionId",id)
+    setIsOpenSearchByMonturaModal(true)
     // if (idVendedor === id) {
     //   setFocus('document');
     // } // borrar
@@ -33,7 +39,11 @@ const Home = ({ dataDashboard }) => {
   // console.log(dataDashboard);
 
   return (
+ 
+  
+
     <div className="flex flex-col items-center bg-bg-blue w-full min-h-screen">
+     
       <div className="pl-4 pt-2 flex w-full h-12 sm:h-16 bg-white shadow-sm">
         <div className="flex text-3xl sm:text-4xl text-gray-800 font-semibold">
           <p>Opticenter</p>
@@ -43,11 +53,17 @@ const Home = ({ dataDashboard }) => {
           </div>
         </div>
       </div>
-
+    
       <div className="flex flex-col w-full h-full p-4">
-
         {/* <------ CARDS -------> */}
         <div className="flex w-full">
+        {isOpenSearchByMonturaModal && (
+      <Portal>
+        <SearchByMontura
+          setIsOpenSearchByMonturaModal={setIsOpenSearchByMonturaModal}
+        />
+      </Portal>
+    )} 
           <div className="flex flex-col sm:flex-row w-full mb-4 mr-4">
             <div className="flex relative w-full sm:w-1/2 bg-green-500 text-white rounded-xl shadow sm:mr-4 mb-4 sm:mb-0">
               <div className="z-10">
@@ -173,6 +189,7 @@ const Home = ({ dataDashboard }) => {
             </div>
           </div>
           <div className="w-full sm:w-1/2 bg-white rounded-xl shadow">
+    
             <div className="border-b text-gray-800 font-semibold pl-4 p-2">
               Pacientes por atender - Consultas
             </div>
@@ -199,7 +216,11 @@ const Home = ({ dataDashboard }) => {
                           <tr key={item.id}>
                             <td className="border border-gray-350 py-2 font-medium capitalize" > <ButtonPrimaryOnclick
             title={item.paciente.rz_social}
-            onClick={() => handlePasarVenta(item.diotria_id.id)}></ButtonPrimaryOnclick></td>
+            onClick={() => 
+              atencionId === item.diotria_id.id
+              ?  handlePasarVenta(item.diotria_id.id)
+              : setAtencionId(item.diotria_id.id)
+            }></ButtonPrimaryOnclick></td>
                             <td className="border border-gray-350 py-2 font-medium text-sm whitespace-nowrap"><a href="#" class="no-underline hover:underline" onClick={() => { handlePasarVenta(item.diotria_id.id);}}>{item.paciente.documento}</a></td>
                             {/* <td className="text-sm border border-gray-350 py-2 font-medium">{`s/${item.finalAmount}`}</td> */}
                             <td className="border border-gray-350 py-2 font-medium"><a href="#" class="no-underline hover:underline" onClick={() => { handlePasarVenta(item.diotria_id.id);}}>{item.precio}</a></td>

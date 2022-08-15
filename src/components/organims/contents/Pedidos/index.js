@@ -240,12 +240,12 @@ const Diotrias = ({
       setValue("esfi", vendedorByIdData[0].esf || "");
       setValue("cili", vendedorByIdData[0].cil || "");
       setValue("ejei", vendedorByIdData[0].eje || "");
-      setValue("precioi", vendedorByIdData[0].precio || "");
+      // setValue("precioi", vendedorByIdData[0].precio || "");
 
       setValue("esfd", vendedorByIdData[1].esf || "");
       setValue("cild", vendedorByIdData[1].cil || "");
       setValue("ejed", vendedorByIdData[1].eje || "");
-      setValue("preciod", vendedorByIdData[1].precio || "");
+      // setValue("preciod", vendedorByIdData[1].precio || "");
 
       clearErrors();
       if (vendedorByIdData[0].ojo) {
@@ -274,12 +274,12 @@ const Diotrias = ({
     setValue("esfi",  "");
     setValue("cili",  "");
     setValue("ejei",  "");
-    setValue("precioi",  "");
+    // setValue("precioi",  "");
 
     setValue("esfd",  "");
     setValue("cild",  "");
     setValue("ejed",  "");
-    setValue("preciod",  "");
+    // setValue("preciod",  "");
     clearErrors();
   };
 
@@ -302,12 +302,12 @@ const Diotrias = ({
       receta: data.receta,
       esfi: data.esfi,
       cili: data.cili,
-      precioi: data.precioi,
+      // precioi: data.precioi,
       cili: data.cili,
       ejei: data.ejei,
       esfd: data.esfd,
       cild: data.cild,
-      preciod: data.preciod,
+      // preciod: data.preciod,
       cild: data.cild,
       ejed: data.ejed,
       add: data.add,
@@ -345,12 +345,12 @@ const Diotrias = ({
       receta: data.receta,
       esfi: data.esfi,
       cili: data.cili,
-      precioi: data.precioi,
+      // precioi: data.precioi,
       cili: data.cili,
       ejei: data.ejei,
       esfd: data.esfd,
       cild: data.cild,
-      preciod: data.preciod,
+      // preciod: data.preciod,
       cild: data.cild,
       ejed: data.ejed,
       add: data.add,
@@ -1059,34 +1059,7 @@ const Diotrias = ({
                             </p>
                           </div>
                           
-                          <div class="pl-3 py-2 pr-2 ring-1   rounded-b-lg  ">
-                            <p className="font-semibold text-primary sm:font-semibold ">
-                              <FormTextInput
-                                inputName="precioi"
-                                icon="S/"
-                                options={{
-                                  required: {
-                                    value: true,
-                                    message: "precio. requerido",
-                                  },
-                                  pattern: {
-                                    value: /^[0-9.]+$/,
-                                    message: 'Precio invalido',
-                                  },
-                                  min: {
-                                    value: 0.01,
-                                    message: 'Precio debe ser mayor a 0',
-                                  },
-                                  onBlur: () => watch('precioi')  && setValue('precioi', parseFloat(watch('precioi')).toFixed(2)),
-
-                                }}
-
-                                register={register}
-                                errors={errors}
-                              />
-                            </p>
-                          </div>
-
+                        
                         </div>
                         <div className="w-1/2">
                           <div class="pl-3 py-2 pr-2  bg-primary rounded-t-lg ">
