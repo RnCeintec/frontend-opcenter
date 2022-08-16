@@ -89,7 +89,7 @@ const Product = ({ item, handleDeleteProduct, handleChangeCant }) => {
               // pattern="[0-9.]*" // UNCOMMENT TO EDIT
               // type="number"// UNCOMMENT TO EDIT
               type="text"
-              readOnly
+              // readOnly
               value={price}
               // onChange={(e) => handleChangePrice(e)} // UNCOMMENT TO EDIT
               // onBlur={(e) => (e.target.value === '' // UNCOMMENT TO EDIT

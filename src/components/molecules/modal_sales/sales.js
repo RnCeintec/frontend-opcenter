@@ -187,6 +187,77 @@ const SalesDiotrias = ({
     handleCleanSearchProducts();
   };
 
+  const handleSelectLunas = () => {
+    let i = 0
+    // const product = monturasData.filter((item) => item.id === idValue)[0];
+    while(i<2){
+    const atencionId = localStorage.getItem("atencionId")
+    debugger
+    let idi = atencionDataById[0]["id"]
+
+    let esfi = atencionDataById[0]["esf"]
+    let cili = atencionDataById[0]["cil"]
+    let ejei = atencionDataById[0]["eje"]
+    let dip = atencionDataById[0]["dip"]
+
+    let precioi = document.getElementById("precioi").value
+
+    let idd = atencionDataById[1]["id"]
+
+    let esfd = atencionDataById[1]["esf"]
+    let cild = atencionDataById[1]["cil"]
+    let preciod = document.getElementById("preciod").value
+    let ejed = atencionDataById[0]["eje"]
+    let add = atencionDataById[0]["add"]
+
+  
+    let productToAdd = {}
+    if(i==0){
+      productToAdd = {
+        id: idd,
+        cod: "OD:SPH "+esfd+" CYL "+cild+" AXIS "+ejed+" DIP "+dip+" ADD ",
+        product: "OD:SPH "+esfd+" CYL "+cild+" AXIS "+ejed+" DIP "+dip+" ADD",
+        category: "Lunas",
+        // precioCompra: product.precio_compra,
+        price: preciod,
+        cant: 1,
+      }
+    
+  }else{
+ 
+    productToAdd = {
+      id: idi,
+      cod: "OIZ:SPH "+esfi+" CYL "+cili+" AXIS "+ejei+"DIP "+add,
+      product: "OIZ:SPH "+esfi+" CYL "+cili+" AXIS "+ejei+"DIP "+add,
+      category: "Lunas",
+      // precioCompra: product.precio_compra,
+      price: precioi,
+      cant: 1,
+    }
+  }
+    
+    const prueba = "";
+    // FINAL TODO
+
+    if ('cart' in localStorage) {
+      let cartLocal = JSON.parse(localStorage.getItem('cart'));
+      // if (cartLocal.filter((item) => item.id === idValue).length === 0) {
+        cartLocal = [...cartLocal, productToAdd];
+        localStorage.setItem('cart', JSON.stringify(cartLocal));
+        setCart(cartLocal);
+        setIsOpenSearchByMonturaModal(false);
+        
+      // } else {
+      //   warningAlert('El producto ya existe en el pedido');
+      // }
+    } else {
+      localStorage.setItem('cart', JSON.stringify([productToAdd]));
+      setCart([productToAdd]);
+    }
+    i++
+  }
+  };
+
   const handleSelectClient = () => {
     setValue("client", clientDataById?.rz_social || "");
     setValue("documentType", clientDataById?.tipo_documento || "");
@@ -482,6 +553,7 @@ const SalesDiotrias = ({
     setIsOpenModalPrint(false);
   };
 
+  
   return (
     <>
       {isOpenSearchByCategoryModal && (
@@ -612,30 +684,12 @@ const SalesDiotrias = ({
                       </p>
                       {/* <span><IconCategory /></span> */}
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsOpenSearchByCategoryModal(true)}
-                      className="flex items-center justify-center rounded-full py-1 px-2.5 text-sm bg-yellow-500 hover:opacity-90 hover:ring ring-gray-200 text-white tap-highline-none"
-                    >
-                      <p className="mr-1.5 hidden sm:flex md:hidden lg:flex">
-                        Lunas
-                      </p>
-                      {/* <span><IconCategory /></span> */}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsOpenSearchByCategoryModal(true)}
-                      className="flex items-center justify-center rounded-full py-1 px-2.5 text-sm bg-bg-purple hover:opacity-90 hover:ring ring-gray-200 text-white tap-highline-none"
-                    >
-                      <p className="mr-1.5 hidden sm:flex md:hidden lg:flex">
-                        Accessorios
-                      </p>
-                      {/* <span><IconCategory /></span> */}
-                    </button>
+            
+                  
                   </div>
 
                   <p className="font-semibold text-gray-600 -mt-3 ml-3 mb-1 sm:font-semibold ">
-                    Producto
+                    Accessorios
                   </p>
                   <div className="flex space-x-2 mb-2">
                     <label
@@ -717,25 +771,14 @@ const SalesDiotrias = ({
                         )}
                       </div>
                     </label>
-                    <button
-                      type="button"
-                      onClick={() => setIsOpenSearchByCategoryModal(true)}
-                      className="flex items-center justify-center rounded-full py-1 px-2.5 text-sm bg-primary hover:opacity-90 hover:ring ring-gray-200 text-white tap-highline-none"
-                    >
-                      <p className="mr-1.5 hidden sm:flex md:hidden lg:flex">
-                        Categorias
-                      </p>
-                      <span>
-                        <IconCategory />
-                      </span>
-                    </button>
+                
                   </div>
                   <div className="rounded-t-xl ring-blue-400 ring-1 p-1.5 pb-2.5 max-h-screen flex flex-col space-y-1.5 overflow-y-auto bg-white">
                     {cartProducts.length === 0 ||
                     !Array.isArray(cartProducts) ? (
                       <div className="flex justify-center items-center text-gray-500">
                         <h4 className="flex my-5 text-lg italic">
-                          A la Espera de Productos!
+                          A la Espera de Accessorios!
                         </h4>
                       </div>
                     ) : (
@@ -751,7 +794,7 @@ const SalesDiotrias = ({
                   </div>
                   <div className="flex justify-between rounded-b-xl ring-1 ring-blue-400 -mt-0.5 bg-white px-2.5 py-1.5 text-sm">
                     <div className="flex">
-                      <p className="mr-1">Cant. Productos: </p>
+                      <p className="mr-1">Cant. Accessorios: </p>
                       <input
                         type="text"
                         readOnly
@@ -786,7 +829,7 @@ const SalesDiotrias = ({
                 >
                   <div className="flex text-sm">
                     <p className="font-semibold text-gray-600 ml-2 pl-1  sm:font-semibold ">
-                      Buscar Cliente
+                      Buscar Paciente
                     </p>
                     {/* <p className="text-red-600 pr-1">*</p> */}
                   </div>
@@ -1171,7 +1214,7 @@ const SalesDiotrias = ({
                     <div class="pl-3 py-2 pr-2 ring-1   rounded-b-lg  ">
                             <p className="font-semibold text-primary sm:font-semibold ">
                               <FormTextInput
-                                inputName="precioi"
+                                inputName="preciod"
                                 icon="S/"
                                 options={{
                                   required: {
@@ -1186,7 +1229,7 @@ const SalesDiotrias = ({
                                     value: 0.01,
                                     message: 'Precio debe ser mayor a 0',
                                   },
-                                  onBlur: () => watch('precioi')  && setValue('precioi', parseFloat(watch('precioi')).toFixed(2)),
+                                  onBlur: () => watch('preciod')  && setValue('preciod', parseFloat(watch('preciod')).toFixed(2)),
 
                                 }}
 
@@ -1270,7 +1313,7 @@ const SalesDiotrias = ({
                     <div class="pl-3 py-2 pr-2 ring-1   rounded-b-lg  ">
                             <p className="font-semibold text-primary sm:font-semibold ">
                               <FormTextInput
-                                inputName="preciod"
+                                inputName="precioi"
                                 icon="S/"
                                 options={{
                                   required: {
@@ -1285,7 +1328,7 @@ const SalesDiotrias = ({
                                     value: 0.01,
                                     message: 'Precio debe ser mayor a 0',
                                   },
-                                  onBlur: () => watch('preciod')  && setValue('preciod', parseFloat(watch('preciod')).toFixed(2)),
+                                  onBlur: () => watch('precioi')  && setValue('precioi', parseFloat(watch('precioi')).toFixed(2)),
 
                                 }}
                                 register={register}
@@ -1296,7 +1339,12 @@ const SalesDiotrias = ({
                   </div>
                   
                 </div>
-
+                <button
+                        type="button"
+                        onClick={() => handleSelectLunas()}
+                        className="border-b px-2 p-1 flex justify-between w-full hover:bg-blue-500 hover:text-white"
+                      >Agregar lunas a ventas
+                      </button>
                 <div
                   className={`flex items-start space-x-2 mt-2 ${
                     errors?.phone ? "" : "mb-1"
