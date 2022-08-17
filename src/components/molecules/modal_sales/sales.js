@@ -73,6 +73,9 @@ const SalesDiotrias = ({
   const [isOpenSearchByMonturaModal, setIsOpenSearchByMonturaModal] =
     useState(false);
 
+    const [isOpenSearchBySalesaModal, setIsOpenSearchBySalesModal] =
+    useState(false);
+
   const [priceProducts, setPriceProducts] = useState(0);
   const [cartProducts, setCartProducts] = useState([]);
   const { cart, setCart } = useContext(Context);
@@ -192,23 +195,29 @@ const SalesDiotrias = ({
     // const product = monturasData.filter((item) => item.id === idValue)[0];
     while(i<2){
     const atencionId = localStorage.getItem("atencionId")
-    debugger
-    let idi = atencionDataById[0]["id"]
+    setClientId( atencionDataById[0].paciente.id )
 
-    let esfi = atencionDataById[0]["esf"]
-    let cili = atencionDataById[0]["cil"]
-    let ejei = atencionDataById[0]["eje"]
-    let dip = atencionDataById[0]["dip"]
+    setValue("client", atencionDataById[0].paciente.rz_social || "");
+    setValue("documentType", atencionDataById[0].paciente.rz_social|| "");
+    setValue("document", atencionDataById[0]?.paciente.documento || "");
+    setValue("address",atencionDataById[0]?.paciente.direccion|| "");
+    setValue("phone", atencionDataById[0]?.paciente.telefono || "");
+
+    let idi = atencionDataById[0]["id"]
+    let esfi = atencionDataById[0]["esf"] ?? ""
+    let cili = atencionDataById[0]["cil"] ?? ""
+    let ejei = atencionDataById[0]["eje"] ?? ""
+    let dip = atencionDataById[0]["dip"] ?? ""
 
     let precioi = document.getElementById("precioi").value
 
     let idd = atencionDataById[1]["id"]
 
-    let esfd = atencionDataById[1]["esf"]
-    let cild = atencionDataById[1]["cil"]
-    let preciod = document.getElementById("preciod").value
-    let ejed = atencionDataById[0]["eje"]
-    let add = atencionDataById[0]["add"]
+    let esfd = atencionDataById[1]["esf"] ?? ""
+    let cild = atencionDataById[1]["cil"] ?? ""
+    let preciod = document.getElementById("preciod").value 
+    let ejed = atencionDataById[0]["eje"] ?? ""
+    let add = atencionDataById[0]["add"] ?? ""
 
   
     let productToAdd = {}
@@ -281,7 +290,6 @@ const SalesDiotrias = ({
   }, [clientDataById]);
 
   useEffect(() => {
-    debugger
     setAtencionId(localStorage.getItem("atencionId"))
 
     if (atencionId > 0) {
@@ -290,9 +298,7 @@ const SalesDiotrias = ({
   }, [atencionDataById]);
 
   const handleSelectAtencion = () => {
-    debugger
     // atencionDataById
-    debugger
     if(atencionDataById.length>0){
     setValue("ejed", atencionDataById[0].eje|| "");
     setValue("cild", atencionDataById[0].cil|| "");
@@ -322,6 +328,9 @@ const SalesDiotrias = ({
   };
 
   // <----- CHANGE CANT OF PRODUCTS OF CART -------->
+  function cerrarModal(){
+    document.getElementById("modalRoot").style.display="none";
+    }
   const handleChangeCant = (idProduct, value) => {
     const cartLocal = JSON.parse(localStorage.getItem("cart"));
     const product = cartLocal.filter((item) => item.id === idProduct)[0];
@@ -429,12 +438,14 @@ const SalesDiotrias = ({
     );
     let productToAdd = [];
     Array.prototype.map.call(cartLocal, (item) => {
-      const { id, cant } = item;
+      debugger
+      const { id, cant ,category} = item;
       productToAdd = [
         ...productToAdd,
         {
           id: +id,
           cantidad: +cant,
+          category: category
           // precio: parseFloat(price),
         },
       ];
@@ -622,7 +633,7 @@ const SalesDiotrias = ({
         <div className="flex p-4 pt-6 mt-2 flex-col justify-center absolute z-20 bg-white rounded-xl
       w-11/12 sm:w-5/6 md:w-3/4 lg:w-full max-h-screen"
         >
-          <button type="button" onClick={() => setIsOpenSearchByMonturaModal(false,0)} className="absolute right-5 top-3 text-gray-600 hover:text-gray-800 z-40">
+          <button type="button" onClick={() => cerrarModal()} className="absolute right-5 top-3 text-gray-600 hover:text-gray-800 z-40">
             <IconClose />
           </button>
       <div className="flex flex-col items-center bg-bg-blue w-full min-h-screen box-border">
@@ -1342,7 +1353,7 @@ const SalesDiotrias = ({
                 <button
                         type="button"
                         onClick={() => handleSelectLunas()}
-                        className="border-b px-2 p-1 flex justify-between w-full hover:bg-blue-500 hover:text-white"
+                        className="bg-primary text-white border-b px-2 p-1 flex justify-between w-full hover:bg-blue-500 hover:text-white"
                       >Agregar lunas a ventas
                       </button>
                 <div
