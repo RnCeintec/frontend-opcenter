@@ -37,6 +37,7 @@ import {
 } from "../../../../utils/alertNotify";
 import Product from "../../../molecules/product/product";
 import SearchByCategory from "../../../molecules/searchByCategory/searchByCategory";
+import SearchByLunas from "../../../molecules/searchByLunas/searchByLunas";
 import SearchByMontura from "../../../molecules/searchByMontura/searchByMontura";
 import FormTextInput from "../../../atoms/formInputs/formTextInput";
 import FormSelectInput from "../../../atoms/formInputs/formSelectInput";
@@ -66,6 +67,8 @@ const Sales = ({
   const [isOpenSearchListProducts, setIsOpenSearchListProducts] =
     useState(false);
   const [isOpenSearchByCategoryModal, setIsOpenSearchByCategoryModal] =
+    useState(false);
+    const [isOpenSearchByLunasModal, setIsOpenSearchByLunasModal] =
     useState(false);
   const [isOpenSearchByMonturaModal, setIsOpenSearchByMonturaModal] =
     useState(false);
@@ -445,6 +448,13 @@ const Sales = ({
           />
         </Portal>
       )}
+      {isOpenSearchByLunasModal && (
+        <Portal>
+          <SearchByLunas
+            setIsOpenSearchByLunasModal={setIsOpenSearchByLunasModal}
+          />
+        </Portal>
+      )}
       {isOpenSearchByMonturaModal && (
         <Portal>
           <SearchByMontura
@@ -517,7 +527,7 @@ const Sales = ({
             {/* WELCOME */}
             <div className="w-full px-3 sm:px-4 flex justify-center items-center bg-white rounded-t-xl border-b relative">
               <p className="sm:text-xl text-left text-gray-600 py-1.5 sm:py-2 truncate">
-                Formulario de Ventas
+                Venta Externa
               </p>
             </div>
             <div className="flex flex-col md:flex-row p-4 bg-white rounded-b-xl">
@@ -561,7 +571,7 @@ const Sales = ({
                     </button>
                     <button
                       type="button"
-                      onClick={() => setIsOpenSearchByCategoryModal(true)}
+                      onClick={() => setIsOpenSearchByLunasModal(true)}
                       className="flex items-center justify-center rounded-full py-1 px-2.5 text-sm bg-yellow-500 hover:opacity-90 hover:ring ring-gray-200 text-white tap-highline-none"
                     >
                       <p className="mr-1.5 hidden sm:flex md:hidden lg:flex">
@@ -581,102 +591,7 @@ const Sales = ({
                     </button>
                   </div>
 
-                  <p className="font-semibold text-gray-600 -mt-3 ml-3 mb-1 sm:font-semibold ">
-                    Producto
-                  </p>
-                  <div className="flex space-x-2 mb-2">
-                    <label
-                      htmlFor="product"
-                      className="w-full relative flex flex-col justify-center "
-                    >
-                      <div className="flex items-center">
-                        <input
-                          ref={refProduct}
-                          placeholder="Busca por Descripción / Codigo"
-                          type="text"
-                          onChange={() => {
-                            setIsLoadingSearchProduct(true);
-                            setTimeout(() => {
-                              handleChangeProduct();
-                            }, 1000);
-                          }}
-                          // eslint-disable-next-line max-len
-                          // onClick={() => setIsOpenSearchListProducts(true)} // SHOW THIS IF PEOPLE WANT SEE ALL PRODUCTS
-                          className={`${
-                            isOpenSearchListProducts
-                              ? "rounded-b-none"
-                              : "rounded-b-xl"
-                          } bg-white pl-4 pr-8 pt-1 pb-1.5 rounded-t-xl w-full ring-blue-400 ring-1 focus:ring-2 focus:outline-none text-gray-800`}
-                        />
-                        {isOpenSearchListProducts ? (
-                          isLoadingSearchProduct ? (
-                            <span className="absolute right-1 top-0 h-full w-7 text-center text-gray-600 flex items-center justify-center">
-                              <IconSpiner dark mini />
-                            </span>
-                          ) : (
-                            <span className="absolute right-1 top-0 h-full w-7 text-center text-gray-600 flex items-center justify-center">
-                              <ButtonIcon
-                                icon={<IconClose />}
-                                isColorHover
-                                colorHover="primary"
-                                colorText="gray-600"
-                                padding={1}
-                                onClick={() => handleCleanSearchProducts()}
-                              />
-                            </span>
-                          )
-                        ) : (
-                          <span className="absolute right-1 top-0 h-full w-7 text-center text-gray-600 flex items-center justify-center">
-                            <IconSearch />
-                          </span>
-                        )}
-                        {isOpenSearchListProducts && (
-                          <div className="flex flex-col w-full bg-white absolute top-9 z-30 rounded-b-xl ring-blue-400 ring-2 pb-2 max-h-96 overflow-auto">
-                            {productsData[0] === "loading" ? (
-                              <div className="w-full flex justify-center pb-1 pt-2">
-                                <IconSpiner primary />
-                              </div>
-                            ) : productsData.length === 0 ||
-                              !Array.isArray(productsData) ? (
-                              <div className="w-full flex justify-center pt-1.5 pb-0.5 italic text-gray-400">
-                                Sin Resultados
-                              </div>
-                            ) : (
-                              productsData.map((item, i) => (
-                                <button
-                                  key={item.id}
-                                  type="button"
-                                  onClick={() => handleSelectProduct(item.id)}
-                                  className={`${
-                                    productsData.length - 1 !== i
-                                      ? "border-b"
-                                      : ""
-                                  } pl-2 p-1 flex flex-wrap justify-start w-full hover:bg-blue-500 hover:text-white text-sm`}
-                                >
-                                  <p className="text-left mr-0.5">{`${item.codigo}: `}</p>
-                                  <p className="text-left">
-                                    {item.descripcion}
-                                  </p>
-                                </button>
-                              ))
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => setIsOpenSearchByCategoryModal(true)}
-                      className="flex items-center justify-center rounded-full py-1 px-2.5 text-sm bg-primary hover:opacity-90 hover:ring ring-gray-200 text-white tap-highline-none"
-                    >
-                      <p className="mr-1.5 hidden sm:flex md:hidden lg:flex">
-                        Categorias
-                      </p>
-                      <span>
-                        <IconCategory />
-                      </span>
-                    </button>
-                  </div>
+                  
                   <div className="rounded-t-xl ring-blue-400 ring-1 p-1.5 pb-2.5 max-h-screen flex flex-col space-y-1.5 overflow-y-auto bg-white">
                     {cartProducts.length === 0 ||
                     !Array.isArray(cartProducts) ? (
@@ -962,228 +877,6 @@ const Sales = ({
                       (watch("address") && watch("address").toLowerCase()) ||
                       "-"
                     }`}</p>
-                  </div>
-                </div>
-
-                <div className={`flex items-start space-x-2 mt-2`}>
-                  <div class="flex relative w-full    bg-blue-400  bg-opacity-90 text-white  shadow  items-center justify-center p-2">
-                    <div class="z-10"></div>
-                    <div className="w-1/2">
-                      <div className="flex flex-wrap text-sm relative">
-                        <p className="font-semibold sm:font-semibold p-2">
-                          Vision
-                        </p>
-                        <p className="font-semibold text-primary sm:font-semibold">
-                          <FormSelectInput
-                            inputName="vision"
-                            // title=""
-                            // onChange={(e) => handleChangeCantView(e)}
-                            options={{
-                              validate: {
-                                value: (e) =>
-                                  e !== "select" || "Vision requerida",
-                              },
-                            }}
-                            register={register}
-                            errors={errors}
-                            watch={watch}
-                          >
-                            <option value="CERCA" className="text-gray-700">
-                              CERCA
-                            </option>
-                            <option
-                              value="INTERMEDIO"
-                              className="text-gray-700"
-                            >
-                              INTERMEDIO
-                            </option>
-                            <option value="LEJOS" className="text-gray-700">
-                              LEJOS
-                            </option>
-                            <option
-                              value="LEJOS Y CERCA"
-                              className="text-gray-700"
-                            >
-                              LEJOS Y CERCA
-                            </option>
-                          </FormSelectInput>
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="w-1/2">
-                      <div className="flex flex-wrap text-sm relative">
-                        <p className="font-semibold  sm:font-semibold p-2">
-                          Receta
-                        </p>
-                        <p className="font-semibold text-primary sm:font-semibold">
-                          <FormSelectInput
-                            inputName="receta"
-                            // title="Receta"
-                            // onChange={(e) => handleChangeCantView(e)}
-                            options={{
-                              validate: {
-                                value: (e) =>
-                                  e !== "select" || "Receta requerida",
-                              },
-                            }}
-                            register={register}
-                            errors={errors}
-                            watch={watch}
-                          >
-                            <option value="INTERNA" className="text-gray-700">
-                              INTERNA
-                            </option>
-                            <option value="EXTERNA" className="text-gray-700">
-                              EXTERNA
-                            </option>
-                          </FormSelectInput>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-2 mt-2">
-                  <div className="w-1/2">
-                    <div class="pl-3 py-2 pr-2  bg-primary rounded-t-lg ">
-                      <div class="flex relative w-full   text-white    items-center justify-center p-2">
-                        <div class="z-10"></div>
-                        <p className="font-semibold text-white sm:font-semibold">
-                          DERECHA
-                        </p>
-                      </div>
-                    </div>
-                    <div class="pl-3 py-2 pr-2 ring-1 ring-blue-400 rounded-t-lg ">
-                      <p className="font-semibold text-primary sm:font-semibold">
-                        <FormTextInput
-                          inputName="esfd"
-                          icon="Esf."
-                          options={{
-                            required: {
-                              value: true,
-                              message: "Esf. requerido",
-                            },
-                          }}
-                          register={register}
-                          errors={errors}
-                        />
-                      </p>
-                      <p className="font-semibold text-primary sm:font-semibold">
-                        <FormTextInput
-                          inputName="cild"
-                          icon="Cil."
-                          options={{
-                            required: {
-                              value: true,
-                              message: "cild. requerido",
-                            },
-                          }}
-                          register={register}
-                          errors={errors}
-                        />
-                      </p>
-                      <p className="font-semibold text-primary sm:font-semibold">
-                        <FormTextInput
-                          inputName="ejed"
-                          icon="Eje."
-                          options={{
-                            required: {
-                              value: true,
-                              message: "Eje. requerido",
-                            },
-                          }}
-                          register={register}
-                          errors={errors}
-                        />
-                      </p>
-                    </div>
-
-                    <div class="pl-3 py-2 pr-2 ring-1 bg-gray-350 rounded-b-lg ">
-                      <p className="font-semibold text-primary sm:font-semibold ">
-                        <FormTextInput
-                          inputName="dip"
-                          icon="DIP."
-                          options={{
-                            required: {
-                              value: true,
-                              message: "Dip. requerido",
-                            },
-                          }}
-                          register={register}
-                          errors={errors}
-                        />
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-1/2">
-                    <div class="pl-3 py-2 pr-2  bg-primary rounded-t-lg ">
-                      <div class="flex relative w-full   text-white    items-center justify-center p-2">
-                        <div class="z-10"></div>
-                        <p className="font-semibold text-white sm:font-semibold">
-                          IZQUIERDA
-                        </p>
-                      </div>
-                    </div>
-                    <div class="pl-3 py-2 pr-2 ring-1 ring-blue-400 rounded-t-lg ">
-                      <p className="font-semibold text-primary sm:font-semibold">
-                        <FormTextInput
-                          inputName="esfd"
-                          icon="Esf."
-                          options={{
-                            required: {
-                              value: true,
-                              message: "Esf. requerido",
-                            },
-                          }}
-                          register={register}
-                          errors={errors}
-                        />
-                      </p>
-                      <p className="font-semibold text-primary sm:font-semibold">
-                        <FormTextInput
-                          inputName="cili"
-                          icon="Cil."
-                          options={{
-                            required: {
-                              value: true,
-                              message: "cili. requerido",
-                            },
-                          }}
-                          register={register}
-                          errors={errors}
-                        />
-                      </p>
-                      <p className="font-semibold text-primary sm:font-semibold">
-                        <FormTextInput
-                          inputName="ejei"
-                          icon="Eje."
-                          options={{
-                            required: {
-                              value: true,
-                              message: "Ejei. requerido",
-                            },
-                          }}
-                          register={register}
-                          errors={errors}
-                        />
-                      </p>
-                    </div>
-                    <div class="pl-3 py-2 pr-2 ring-1 bg-gray-350 rounded-b-lg ">
-                      <p className="font-semibold text-primary sm:font-semibold">
-                        <FormTextInput
-                          inputName="add"
-                          icon="ADD."
-                          options={{
-                            required: {
-                              value: true,
-                              message: "ADD. requerido",
-                            },
-                          }}
-                          register={register}
-                          errors={errors}
-                        />
-                      </p>
-                    </div>
                   </div>
                 </div>
 

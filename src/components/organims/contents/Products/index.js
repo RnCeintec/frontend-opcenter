@@ -322,7 +322,7 @@ const Products = ({
       <div className="flex flex-col items-center bg-bg-blue w-full min-h-screen box-border">
         <div className="pl-4 pt-2 flex w-full h-12 sm:h-16 bg-white shadow-sm">
           <div className="flex text-2xl sm:text-4xl text-gray-800 font-semibold">
-            Productos
+            Accesorios
             <div className="text-red-500 opacity-80 w-7 sm:w-10 ml-1 mt-1">
               <IconProduct autosize />
             </div>
