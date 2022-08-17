@@ -23,20 +23,22 @@ const Home = ({ dataDashboard }) => {
     TotalPagado, TotalProductos, TotalVentas,
     masVendidos, ultimasVentas,pedidosLunas
   } = dataDashboard;
-  const [isOpenSearchByMonturaModal, setIsOpenSearchByMonturaModal] =useState(false);
+  const [isOpenSearchBySalesModal, setIsOpenSearchBySalesModal] =useState(false);
 
   const [atencionId, setAtencionId] = useState(0);
 
-  const handlePasarVenta= (id) =>  {
+  const handlePasarVenta= (id,documento) =>  {
     // alert("Pasar a venta "+id)
     // useState(true)
     localStorage.setItem("atencionId",id)
-    setIsOpenSearchByMonturaModal(true)
+    setIsOpenSearchBySalesModal(true)
+    document.getElementById("modalRoot").style.display="block";
     // if (idVendedor === id) {
     //   setFocus('document');
     // } // borrar
   };
   // console.log(dataDashboard);
+
 
   return (
  
@@ -57,10 +59,10 @@ const Home = ({ dataDashboard }) => {
       <div className="flex flex-col w-full h-full p-4">
         {/* <------ CARDS -------> */}
         <div className="flex w-full">
-        {isOpenSearchByMonturaModal && (
+        {isOpenSearchBySalesModal && (
       <Portal>
         <SearchByMontura
-          setIsOpenSearchByMonturaModal={setIsOpenSearchByMonturaModal}
+          setIsOpenSearchBySalesModal={setIsOpenSearchBySalesModal}
         />
       </Portal>
     )} 
@@ -219,7 +221,7 @@ const Home = ({ dataDashboard }) => {
             onClick={() => 
               atencionId === item.diotria_id.id
               ?  handlePasarVenta(item.diotria_id.id)
-              : setAtencionId(item.diotria_id.id)
+              : setAtencionId(item.diotria_id.id,) 
             }></ButtonPrimaryOnclick></td>
                             <td className="border border-gray-350 py-2 font-medium text-sm whitespace-nowrap"><a href="#" class="no-underline hover:underline" onClick={() => { handlePasarVenta(item.diotria_id.id);}}>{item.paciente.documento}</a></td>
                             {/* <td className="text-sm border border-gray-350 py-2 font-medium">{`s/${item.finalAmount}`}</td> */}
