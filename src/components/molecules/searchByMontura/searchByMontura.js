@@ -97,7 +97,7 @@ const SearchByMontura = ({
     const productToAdd = {
       id: product.id,
       cod: "M"+product.idmontura,
-      product: "M"+product.idmontura+"-"+product.marca,
+      product: "M"+product.idmontura+"-"+product.marca+"-"+product.modelo+"-"+product.tipo+"-"+product.color+"-"+product.comentario,
       category: "Montura",
       // precioCompra: product.precio_compra,
       price: product.venta,
@@ -275,7 +275,7 @@ const SearchByMontura = ({
                         onClick={() => handleSelectProduct(item.id)}
                         className={`${(monturasData.length - 1) !== i ? 'border-b' : 'border-b'} px-2 p-1 flex justify-between w-full hover:bg-blue-500 hover:text-white`}
                       >
-                         <p className="text-left">{"M"+item.idmontura}</p>
+                         <p className="text-left">{"M"+item.idmontura+"-"+item.marca+"-"+item.modelo+"-"+item.tipo+"-"+item.color}</p>
                         <p className="text-sm text-left ml-2">{parseFloat(item.venta).toFixed(2)}</p>
                       </button>
                     ))}
