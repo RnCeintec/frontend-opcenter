@@ -45,6 +45,7 @@ import FormSelectInput from "../../../atoms/formInputs/formSelectInput";
 import NewClient from "../../../molecules/newClient/newClient";
 // import PdfByHtml from '../../../pages/PDF/pdfByHtml';
 
+
 const Sales = ({
   productsData,
   setSearchProduct,
@@ -303,6 +304,24 @@ const Sales = ({
     window.open(whatsAPI);
   };
 
+  const setIsLoadingSearchClientSunat = (documento) =>{
+    debugger
+    // let url = 'http://dniruc.apisperu.com/api/v1/ruc/'+documento+'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFqYW0udmlyZ29AZ21haWwuY29tIn0.TNEnUDcGJyZpwJonnsb87j2uEp01QRYdigG0wdZ54yI'
+    // const response =  useFetch(url);
+    //   const jsonResonse =  response.json();
+    // fetch('http://dniruc.apisperu.com/api/v1/ruc/'+documento+'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFqYW0udmlyZ29AZ21haWwuY29tIn0.TNEnUDcGJyZpwJonnsb87j2uEp01QRYdigG0wdZ54yI')
+    // .then(response => response.json())
+    // .then(data => console.log(data));
+    // let client_sunat = document.getElementsByTagName("client_sunat");
+    // fetch('http://dniruc.apisperu.com/api/v1/ruc/'+documento+'?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFqYW0udmlyZ29AZ21haWwuY29tIn0.TNEnUDcGJyZpwJonnsb87j2uEp01QRYdigG0wdZ54yI')
+    // .then((response) => {
+    //   return response.json()
+    // })
+    // .then((articulos) => {
+    //   setArticulos(articulos)
+    // })
+
+  }
   const saveSale = async () => {
     setIsLoadingSubmit(true);
     setIsLoadingIframe(true);
@@ -648,7 +667,7 @@ const Sales = ({
                 >
                   <div className="flex text-sm">
                     <p className="font-semibold text-gray-600 ml-2 pl-1  sm:font-semibold ">
-                      Buscar Cliente
+                      Buscar Paciente
                     </p>
                     {/* <p className="text-red-600 pr-1">*</p> */}
                   </div>
@@ -745,6 +764,7 @@ const Sales = ({
                     </button>
                   </div>
                 </label>
+               
                 <span
                   className={`${
                     errors?.client ||
@@ -761,6 +781,7 @@ const Sales = ({
                     errors?.address?.message}
                 </span>
 
+
                 <input
                   readOnly
                   type="text"
@@ -768,7 +789,7 @@ const Sales = ({
                   {...register("client", {
                     required: {
                       value: buttonPressed === "factura",
-                      message: "No hay Cliente seleccionado",
+                      message: "No hay paciente seleccionado",
                     },
                     validate: {
                       minBoleta: (e) =>
@@ -777,7 +798,7 @@ const Sales = ({
                             ? e !== ""
                             : true
                           : true) ||
-                        "Venta con Boleta mayor a S/700 requiere Cliente",
+                        "Venta con Boleta mayor a S/700 requiere pliente",
                     },
                   })}
                 />
@@ -845,6 +866,137 @@ const Sales = ({
                 <div className="pl-3 py-2 pr-2 ring-1 ring-blue-400 rounded-2xl">
                   <div className="flex flex-wrap text-sm relative">
                     <p className="font-semibold text-primary sm:font-semibold">
+                      Paciente:
+                    </p>
+                    <p className="font-semibold ml-2 text-gray-600 capitalize">{`${
+                      (watch("client") && watch("client").toLowerCase()) || "-"
+                    }`}</p>
+                  </div>
+                  <div className="flex text-sm relative">
+                    <p className="font-semibold text-primary sm:font-semibold">
+                      Docum.:
+                    </p>
+                    <div className="flex text-gray-600 font-semibold ml-2">
+                      <p className="">{`${
+                        (watch("documentType") === "dni" && "DNI") ||
+                        (watch("documentType") === "ruc" && "RUC") ||
+                        (watch("documentType") === "carnet" &&
+                          "Carnet Extr.") ||
+                        ""
+                      }`}</p>
+
+                      <p className={`${watch("documentType") && "mx-1"}`}>-</p>
+                      <p className="">{`${watch("document") || ""}`}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap text-sm">
+                    <p className="font-semibold text-primary sm:font-semibold">
+                      Dirección:
+                    </p>
+                    <p className="font-semibold ml-2 text-gray-600 capitalize">{`${
+                      (watch("address") && watch("address").toLowerCase()) ||
+                      "-"
+                    }`}</p>
+                  </div>
+                </div>
+                
+                <label
+                  htmlFor="client"
+                  className="w-full relative mb-2 flex flex-col justify-center "
+                >
+                  <div className="flex text-sm">
+                    <p className="font-semibold text-gray-600 ml-2 pl-1  sm:font-semibold ">
+                      Buscar Cliente
+                    </p>
+                    {/* <p className="text-red-600 pr-1">*</p> */}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center w-full relative">
+                      <input
+                        // ref={refClient}
+                        placeholder="RUC"
+                        type="text"
+                        id="client_sunat"
+                        autoComplete="off"
+                        onChange={(e) => {
+                          setIsLoadingSearchClientSunat(e.target.value);
+                          setTimeout(() => {
+                            handleChangeClient();
+                          }, 1000);
+                        }}
+                        className={`${
+                          errors?.client ? "ring-red-500" : "ring-blue-400"
+                        } ${
+                          isOpenSearchListClients
+                            ? "rounded-t-xl"
+                            : "rounded-xl"
+                        } bg-white pl-3 pr-3 py-0.5 text-sm  w-full ring-1 focus:ring-2 focus:outline-none text-gray-800`}
+                      />
+                      {isOpenSearchListClients ? (
+                        isLoadingSearchClient ? (
+                          <span className="absolute right-1 h-full w-7 text-center text-gray-600 flex items-center justify-center">
+                            <IconSpiner dark mini />
+                          </span>
+                        ) : (
+                          <span className="absolute right-1 h-full w-7 text-center text-gray-600 flex items-center justify-center">
+                            <ButtonIcon
+                              icon={<IconClose />}
+                              isColorHover
+                              colorHover="primary"
+                              colorText="gray-600"
+                              padding={1}
+                              onClick={() => handleCleanSearchClients()}
+                            />
+                          </span>
+                        )
+                      ) : (
+                        <span className="absolute right-1 h-full w-7 text-center text-gray-600 flex items-center justify-center">
+                          <IconSearch />
+                        </span>
+                      )}
+                      {isOpenSearchListClients && (
+                        <div className="flex flex-col w-full bg-white absolute top-6.5 z-20 rounded-b-xl ring-blue-400 ring-2 pb-2 max-h-96 overflow-auto">
+                          {clientsData[0] === "loading" ? (
+                            <div className="w-full flex justify-center pb-1 pt-2">
+                              <IconSpiner primary />
+                            </div>
+                          ) : clientsData.length === 0 ||
+                            !Array.isArray(clientsData) ? (
+                            <div className="w-full flex justify-center pt-1.5 pb-0.5 italic text-gray-400">
+                              Sin Resultados
+                            </div>
+                          ) : (
+                            clientsData.map((item, i) => (
+                              <button
+                                key={item.id}
+                                type="button"
+                                onClick={() =>
+                                  clientId === item.id
+                                    ? handleSelectClient()
+                                    : setClientId(item.id)
+                                }
+                                className={`${
+                                  clientsData.length - 1 !== i ? "border-b" : ""
+                                } pl-2 py-2 p-1 flex flex-wrap justify-start w-full hover:bg-blue-500 hover:text-white text-xs sm:text-sm md:text-xs`}
+                              >
+                                <p className="text-left mr-0.5">{`${item.documento} - `}</p>
+                                <p className="text-left">{item.rz_social}</p>
+                                {/* <p className="text-left">BRYAN PAUL BRICEÑO CHICLAYO</p> */}
+                              </button>
+                            ))
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    
+                  </div>
+                </label>
+
+                <div className="pl-3 py-2 pr-2 ring-1 ring-blue-400 rounded-2xl">
+                  <div className="flex flex-wrap text-sm relative">
+                    <p className="font-semibold text-primary sm:font-semibold">
                       Cliente:
                     </p>
                     <p className="font-semibold ml-2 text-gray-600 capitalize">{`${
@@ -879,7 +1031,6 @@ const Sales = ({
                     }`}</p>
                   </div>
                 </div>
-
                 <div
                   className={`flex items-start space-x-2 mt-2 ${
                     errors?.phone ? "" : "mb-1"

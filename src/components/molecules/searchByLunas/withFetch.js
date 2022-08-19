@@ -15,7 +15,7 @@ const withFetch = (Component) => (props) => {
   const [productsData, setProductsData] = useState({ result: [] });
   const [limitProduct, setLimitProduct] = useState(10);
   const [productsCount, setProductsCount] = useState(1);
-  const fetchSearchLunas = useFetch('lunas');
+  const fetchSearchLunas = useFetch('diotrias');
   const fetchSearchProduct = useFetch('product');
 
   const getDataLunas = async () => {

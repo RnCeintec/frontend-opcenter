@@ -16,6 +16,29 @@ import { useForm } from 'react-hook-form';
 import FormTextInput from '../../atoms/formInputs/formTextInput';
 import FormSelectInput from '../../atoms/formInputs/formSelectInput';
 
+function toMedida(val) {
+  var num;
+  if (val == "") {
+      num = '+0.00';
+  } else if (val.substr(0, 1) == '+' || val.substr(0, 1) == '-') {
+      num = val.substring(1, val.length);
+      if (num == "") {
+          num = '0.00';
+      }
+      num = parseFloat(num);
+      if (num == 'NaN') {
+          num = '0.00';
+      }
+      num = val.substr(0, 1) + "" + num;
+  } else {
+      num = parseFloat(val);
+      if (num == 'NaN') {
+          num = '0.00';
+      }
+      num = "+" + num;
+  }
+  return num;
+}
 
 const SearchByLunas = ({
   setIsOpenSearchByLunasModal,
@@ -101,6 +124,7 @@ const SearchByLunas = ({
     }
   };
   const handleSelectLunas = (idValue) => {
+    debugger
     const dataToInsert = lunasData.filter((item) => item.id === idValue)[0];
     setDataLunasSelected(dataToInsert);
     refLunas.current.value = dataToInsert.descripcion;
@@ -108,6 +132,97 @@ const SearchByLunas = ({
     setSearchLunas(dataToInsert.descripcion);
     setIsOpenSearchListLunas(false);
   };
+
+  const handlePasarLunas = () =>{
+    let i = 0
+    // const product = monturasData.filter((item) => item.id === idValue)[0];
+    while(i<3){
+debugger
+
+    let idi =i
+    let esfi = document.getElementById("esfi").value ?? ""
+    let cili = document.getElementById("cili").value ?? ""
+    let ejei = document.getElementById("ejei").value ?? ""
+    let dip = document.getElementById("dip").value ?? ""
+    let vision = document.getElementsByName("vision").value ?? ""
+
+    let precioi = document.getElementById("precioi").value
+
+    let idd = i
+
+    let esfd = document.getElementById("esfd").value ?? ""
+    let cild =document.getElementById("cild").value ?? ""
+    let preciod = document.getElementById("preciod").value 
+    let ejed = document.getElementById("ejed").value ?? ""
+    let add = document.getElementById("add").value ?? ""
+
+    let lunproducto =  document.getElementsByName("lunproducto").value ?? ""
+    let lundetalle =  document.getElementsByName("lundetalle").value ?? ""
+
+    // var temp3 = ['C', '', 'COD:' + lunproducto + ' DIP: ' + dip + ' ADD: ' + add + ', ' + vision + ', ' + lundetalle, '0.00', '0.00'];
+
+
+    let productToAdd = {}
+    if(i==0){
+      productToAdd = {
+        id: idd,
+        cod: "OD:SPH "+esfd+" CYL "+cild+" AXIS "+ejed+" DIP "+dip+" ADD ",
+        product: "OD:SPH "+esfd+" CYL "+cild+" AXIS "+ejed+" DIP "+dip+" ADD",
+        category: "Lunas",
+        // precioCompra: product.precio_compra,
+        price: preciod,
+        cant: 1,
+      }
+    
+  }
+ 
+  if(i==1){
+    productToAdd = {
+      id: idi,
+      cod: "OIZ:SPH "+esfi+" CYL "+cili+" AXIS "+ejei+"DIP "+add,
+      product: "OIZ:SPH "+esfi+" CYL "+cili+" AXIS "+ejei+"DIP "+add,
+      category: "Lunas",
+      // precioCompra: product.precio_compra,
+      price: precioi,
+      cant: 1,
+    }
+
+  }
+  if(i==2){
+ 
+    productToAdd = {
+      id: idi,
+      cod: 'COD:' + lunproducto + ' DIP: ' + dip + ' ADD: ' + add + vision + lundetalle,
+      product:  'COD:' + lunproducto + ' DIP: ' + dip + ' ADD: ' + add + vision + lundetalle,
+      category: "Lunas C",
+      // precioCompra: product.precio_compra,
+      price: 0.00,
+      cant: 1,
+    }
+  }
+    
+    const prueba = "";
+    // FINAL TODO
+
+    if ('cart' in localStorage) {
+      let cartLocal = JSON.parse(localStorage.getItem('cart'));
+      // if (cartLocal.filter((item) => item.id === idValue).length === 0) {
+        cartLocal = [...cartLocal, productToAdd];
+        localStorage.setItem('cart', JSON.stringify(cartLocal));
+        setCart(cartLocal);
+        setIsOpenSearchByLunasModal(false);
+        
+      // } else {
+      //   warningAlert('El producto ya existe en el pedido');
+      // }
+    } else {
+      localStorage.setItem('cart', JSON.stringify([productToAdd]));
+      setCart([productToAdd]);
+    }
+    i++
+  }
+
+  }
 
   // <----- SELECT AN ELEMENT OF THE SEARCH -------->
   const handleSelectProduct = (idValue) => {
@@ -159,7 +274,7 @@ const SearchByLunas = ({
 						{/*LADO IZQUIERDO */}
 						<div className="flex flex-col w-full md:w-2/5">
 							<form className="flex flex-col w-full -mt-2 relative" onSubmit={handleSubmit(onSubmit)}>
-								<FormSelectInput inputName="tipo_documento"
+								<FormSelectInput inputName="lunlaboratorio"
 														title="Laboratorio"
 														icon={<IconIdCard />}
 														options={{
@@ -169,10 +284,18 @@ const SearchByLunas = ({
 														}}
 														register={register} watch={watch} errors={errors}
 													>
-														<option value="dni" className="text-gray-700">OPCION 1</option>
-														<option value="carnet" className="text-gray-700">OPCION 2</option>
+                            <option value="0" className="text-gray-700">Seleccione...</option>
+                            <option value="132" className="text-gray-700">OXO</option>
+                            <option value="134" className="text-gray-700">OCUTEC</option>
+                            <option value="135" className="text-gray-700">TOPSA</option>
+                            <option value="136" className="text-gray-700">UNIVERSO OPTICO</option>
+                            <option value="137" className="text-gray-700">LUNETTE</option>
+                            <option value="138" className="text-gray-700">AGURTO</option>
+                            <option value="337" className="text-gray-700">MOT</option>
+                            <option value="550" className="text-gray-700">FAMHIES</option>
+                            <option value="553" className="text-gray-700">KALU</option>
 													</FormSelectInput>
-									<FormSelectInput inputName="tipo_documento"
+									<FormSelectInput inputName="lunproducto"
 														title="Producto"
 														icon={<IconIdCard />}
 														options={{
@@ -185,7 +308,7 @@ const SearchByLunas = ({
 														<option value="dni" className="text-gray-700">OPCION 1</option>
 														<option value="carnet" className="text-gray-700">OPCION 2</option>
 													</FormSelectInput>
-									<FormSelectInput inputName="tipo_documento"
+									<FormSelectInput inputName="lundetalle"
 														title="Detalle"
 														icon={<IconIdCard />}
 														options={{
@@ -497,7 +620,7 @@ const SearchByLunas = ({
                           <div class="pl-3 py-2 pr-2 ring-1   rounded-b-lg  ">
                             <p className="font-semibold text-primary sm:font-semibold ">
                               <FormTextInput
-                                inputName="preciod"
+                                inputName="precioi"
                                 icon="S/"
                                 options={{
                                   required: {
@@ -524,9 +647,16 @@ const SearchByLunas = ({
                       </div>
 					
 						</div>
-						
+    
           </div>
+          <button
+                        type="button"
+                        onClick={() => handlePasarLunas()}
+                        className="bg-primary text-white border-b px-2 p-1 flex justify-between w-full hover:bg-blue-500 hover:text-white rounded-l-full border border-primary"
+                      >Agregar lunas a ventas
+                      </button>
         </div>
+      
         {/* THIS DIV IS FOR BLACK BACKGROUND */}
         <div
           className="w-full h-full z-10 bg-gray-600 opacity-60"
